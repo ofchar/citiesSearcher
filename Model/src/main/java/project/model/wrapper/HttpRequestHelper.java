@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  *
  * @author abs
  */
-public class HttpRequestFunctions {
+public class HttpRequestHelper {
 
     public static void httpRequest1(String link, String query, String outFile) throws IOException {
         URL url;
@@ -44,11 +44,11 @@ public class HttpRequestFunctions {
 
         } catch (MalformedURLException ex) {
             System.out.println("Erro no URL / ligação");
-            Logger.getLogger(HttpRequestFunctions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HttpRequestHelper.class.getName()).log(Level.SEVERE, null, ex);
 
         } catch (IOException ex) {
             System.out.println("Erro na escrita do ficheiro");
-            Logger.getLogger(HttpRequestFunctions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HttpRequestHelper.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
@@ -85,11 +85,11 @@ public class HttpRequestFunctions {
 
         } catch (MalformedURLException ex) {
             System.out.println("Erro no URL / ligação");
-            Logger.getLogger(HttpRequestFunctions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HttpRequestHelper.class.getName()).log(Level.SEVERE, null, ex);
 
         } catch (IOException ex) {
             System.out.println("Erro na escrita do ficheiro");
-            Logger.getLogger(HttpRequestFunctions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HttpRequestHelper.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
