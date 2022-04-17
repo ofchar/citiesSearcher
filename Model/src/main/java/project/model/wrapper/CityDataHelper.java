@@ -3,6 +3,7 @@ package project.model.wrapper;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -115,8 +116,14 @@ public class CityDataHelper implements IWrapper {
     }
 
     @Override
-    public float getArea() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getArea() throws CityDataCouldNotBeFoundException {
+        try {
+            return this.wikipediaWrapper.getArea();
+        } catch (WikipediaWrapperException ex) {
+            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        throw new CityDataCouldNotBeFoundException();
     }
 
     @Override
