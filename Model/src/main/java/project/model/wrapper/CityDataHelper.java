@@ -138,18 +138,36 @@ public class CityDataHelper implements IWrapper {
     }
 
     @Override
-    public float getPopulationDensity() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getPopulationDensity() throws CityDataCouldNotBeFoundException {
+        try {
+            return this.wikipediaWrapper.getPopulationDensity();
+        } catch (WikipediaWrapperException ex) {
+            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        throw new CityDataCouldNotBeFoundException();
     }
 
     @Override
-    public String getPostalCode() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getPostalCode() throws CityDataCouldNotBeFoundException {
+        try {
+            return this.wikipediaWrapper.getPostalCode();
+        } catch (WikipediaWrapperException ex) {
+            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        throw new CityDataCouldNotBeFoundException();
     }
 
     @Override
-    public String getMayorName() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getMayorName() throws CityDataCouldNotBeFoundException {
+        try {
+            return this.wikipediaWrapper.getMayorName();
+        } catch (WikipediaWrapperException ex) {
+            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        throw new CityDataCouldNotBeFoundException();
     }
 
     @Override
