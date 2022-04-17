@@ -2,6 +2,7 @@ package project.model.wrapper;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -124,50 +125,50 @@ public class WikipediaWrapper implements IWrapper {
 
     @Override
     public String getCityFlag() throws WikipediaWrapperException {
+        String regex = "class=\"ib-settlement-cols-cell\".*?Flag.*?src=\"(.*?)\"";
+        
+        return getMatch(regex, 1);
+    }
+
+    @Override
+    public List<String> getCityLandmarks() throws WikipediaWrapperException {
         Scanner scanner = createScanner();
         
-        Pattern pattern = Pattern.compile("class=\"ib-settlement-cols-cell\".*?Flag.*?src=\"(.*?)\"");
-        Matcher matcher;
+        Pattern pattern = Pattern.compile("(?:class=\\\"category\\\"(\\S+)|(?!^)\\G)(?:(?!src=\\\"(.*?)\\\").)+(src=\\\".*?\\\")"); //Iloveregex
+
+        List list = new ArrayList<String>();
         
-        try {        
-            matcher = findPattern(scanner, pattern);
-        }
-        catch (NoSuchElementException e) {
-            throw new WikipediaWrapperException("Data not found");
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            
+            Matcher matcher = pattern.matcher(line);
+            
+            while (matcher.find()) {
+                list.add(matcher.group(2));
+            }
         }
 
         scanner.close();
         
-        return matcher.group(1);
+        if(list.isEmpty()) {
+            throw new WikipediaWrapperException("Data not found");
+        }
+        
+        return list;
     }
 
     @Override
-    public List<String> getCityLandmarks() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public float getArea() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getArea() throws WikipediaWrapperException {
+        String regex = "Area.*?>([0-9\\\\.]+).*?km";
+        
+        return Float.parseFloat(getMatch(regex, 1));
     }
 
     @Override
     public int getInhabitants() throws WikipediaWrapperException {
-        Scanner scanner = createScanner();
+        String regex = "Population.*?>(\\d+,\\d*[,*\\d*]*).+?<";
         
-        Pattern pattern = Pattern.compile("Population.*?>(\\d+,\\d*[,*\\d*]*).+?<");
-        Matcher matcher;
-        
-        try {        
-            matcher = findPattern(scanner, pattern);
-        }
-        catch (NoSuchElementException e) {
-            throw new WikipediaWrapperException("Data not found");
-        }
-
-        scanner.close();
-        
-        return Integer.parseInt(matcher.group(1).replace(",", ""));
+        return Integer.parseInt(getMatch(regex, 1).replace(",", ""));
     }
 
     @Override
