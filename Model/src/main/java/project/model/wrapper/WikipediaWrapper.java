@@ -161,7 +161,7 @@ public class WikipediaWrapper implements IWrapper {
     public float getArea() throws WikipediaWrapperException {
         String regex = "Area.*?>([0-9\\\\.]+).*?km";
         
-        return Float.parseFloat(getMatch(regex, 1));
+        return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
     }
 
     @Override
@@ -172,18 +172,24 @@ public class WikipediaWrapper implements IWrapper {
     }
 
     @Override
-    public float getPopulationDensity() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getPopulationDensity() throws WikipediaWrapperException {
+        String regex = "Density.*?>([0-9\\\\,]+).*?km";
+
+        return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
     }
 
     @Override
-    public String getPostalCode() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getPostalCode() throws WikipediaWrapperException {
+        String regex = "class=\"postal-code\">(.*?)<\\/";
+        
+        return getMatch(regex, 1);
     }
 
     @Override
-    public String getMayorName() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getMayorName() throws WikipediaWrapperException {
+        String regex = "Mayor<.*?>([A-Z].*?)<";
+        
+        return getMatch(regex, 1);
     }
 
     @Override
