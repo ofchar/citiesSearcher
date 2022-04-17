@@ -57,6 +57,24 @@ public class WikipediaWrapper implements IWrapper {
         throw new NoSuchElementException();
     }
     
+    private String getMatch(String regex, int group) throws WikipediaWrapperException {
+        Scanner scanner = createScanner();
+        
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher;
+        
+        try {        
+            matcher = findPattern(scanner, pattern);
+        }
+        catch (NoSuchElementException e) {
+            throw new WikipediaWrapperException("Data not found");
+        }
+
+        scanner.close();
+        
+        return matcher.group(group);
+    }
+    
     @Override
     public String getName() throws WikipediaWrapperException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
