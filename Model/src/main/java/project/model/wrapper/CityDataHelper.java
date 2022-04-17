@@ -72,8 +72,14 @@ public class CityDataHelper implements IWrapper {
     }
 
     @Override
-    public boolean isCapital() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean isCapital() throws CityDataCouldNotBeFoundException {
+        try {
+            return this.wikipediaWrapper.isCapital();
+        } catch (WikipediaWrapperException ex) {
+            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        throw new CityDataCouldNotBeFoundException();
     }
 
     @Override
@@ -87,13 +93,25 @@ public class CityDataHelper implements IWrapper {
     }
 
     @Override
-    public String getCityFlag() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getCityFlag() throws CityDataCouldNotBeFoundException {
+        try {
+            return this.wikipediaWrapper.getCityFlag();
+        } catch (WikipediaWrapperException ex) {
+            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        throw new CityDataCouldNotBeFoundException();
     }
 
     @Override
-    public List<String> getCityLandmarks() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<String> getCityLandmarks() throws CityDataCouldNotBeFoundException {
+        try {
+            return this.wikipediaWrapper.getCityLandmarks();
+        } catch (WikipediaWrapperException ex) {
+            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        throw new CityDataCouldNotBeFoundException();
     }
 
     @Override
