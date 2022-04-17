@@ -68,23 +68,59 @@ public class WikipediaWrapper implements IWrapper {
     }
 
     @Override
-    public boolean isCapital() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean isCapital() throws WikipediaWrapperException {
+        Scanner scanner = createScanner();
+        
+        Pattern pattern = Pattern.compile("class=\"category\".*?>(Capital city)");
+        Matcher matcher;
+        
+        try {        
+            matcher = findPattern(scanner, pattern);
+        }
+        catch (NoSuchElementException e) {
+            //Here we can assume that if nothing matching pattern was found, the city
+            //simply isn't a capital.
+            return false;
+        }
+
+        scanner.close();
+        
+        return true;
     }
 
     @Override
-    public String getCountryFlag() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getCountryFlag() throws WikipediaWrapperException {
+        //Since there is not way to reliably get that data from Wikipedia city 
+        //page, we will simply throw this error every time.
+        //We could however find that in country's page, but thats out of scope here.
+        throw new WikipediaWrapperException("Data not found");
     }
 
     @Override
-    public List<String> getCountryLanguages() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<String> getCountryLanguages() throws WikipediaWrapperException {
+        //Since there is not way to reliably get that data from Wikipedia city 
+        //page, we will simply throw this error every time.
+        //We could however find that in country's page, but thats out of scope here.
+        throw new WikipediaWrapperException("Data not found");
     }
 
     @Override
-    public String getCityFlag() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getCityFlag() throws WikipediaWrapperException {
+        Scanner scanner = createScanner();
+        
+        Pattern pattern = Pattern.compile("class=\"ib-settlement-cols-cell\".*?Flag.*?src=\"(.*?)\"");
+        Matcher matcher;
+        
+        try {        
+            matcher = findPattern(scanner, pattern);
+        }
+        catch (NoSuchElementException e) {
+            throw new WikipediaWrapperException("Data not found");
+        }
+
+        scanner.close();
+        
+        return matcher.group(1);
     }
 
     @Override
@@ -101,7 +137,7 @@ public class WikipediaWrapper implements IWrapper {
     public int getInhabitants() throws WikipediaWrapperException {
         Scanner scanner = createScanner();
         
-        Pattern pattern = Pattern.compile("Population.*>(\\d*,\\d*)<");
+        Pattern pattern = Pattern.compile("Population.*?>(\\d+,\\d*[,*\\d*]*).+?<");
         Matcher matcher;
         
         try {        
