@@ -1,6 +1,6 @@
 package project.model.xmler.exceptions;
 
-public class XMLFileHelperException extends Exception {
+public class XMLFileHelperException extends XMLerException {
 
     public XMLFileHelperException() {
     }
