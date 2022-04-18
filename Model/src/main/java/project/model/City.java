@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdom2.Element;
 import project.model.wrapper.CityDataHelper;
+import project.model.wrapper.IWrapper;
 import project.model.wrapper.exceptions.CityDataCouldNotBeFoundException;
 import project.model.xmler.IXMLizable;
 
@@ -32,25 +33,30 @@ public class City implements IXMLizable{
     public City(String name, String country) {
         this.name = name;
         this.country = country;
-        
-        fillData();
     }
     
-    private void fillData() {
-        CityDataHelper helper = new CityDataHelper(this.name);
-        
+    public void fillData(IWrapper dataWrapper) {
         try {
-            this.isCapital = helper.isCapital();
-//            this.countryFlag
-//            this.langauges
-            this.landmarks = helper.getCityLandmarks();
-            this.area = helper.getArea();
-            this.inhabitants = helper.getInhabitants();
-            this.populationDensity = helper.getPopulationDensity();
-            this.postalCode = helper.getPostalCode();
-            this.mayor = helper.getMayorName();
-            //rest
+            this.isCapital = dataWrapper.isCapital();
+            this.countryFlag = dataWrapper.getCountryFlag();
+            this.languages = dataWrapper.getCountryLanguages();
+            this.landmarks = dataWrapper.getCityLandmarks();
+            this.area = dataWrapper.getArea();
+            this.inhabitants = dataWrapper.getInhabitants();
+            this.populationDensity = dataWrapper.getPopulationDensity();
+            this.postalCode = dataWrapper.getPostalCode();
+            this.mayor = dataWrapper.getMayorName();
+            this.latitude = dataWrapper.getLatitude();
+            this.longitute = dataWrapper.getLongitude();
+            this.altitude = dataWrapper.getAltitude();
+            this.climate = dataWrapper.getClimate();
+            this.timezone = dataWrapper.getTimezone();
+            this.website = dataWrapper.getWebsite();
+            this.twinCities = dataWrapper.getTwinTowns();
         } catch (CityDataCouldNotBeFoundException ex) {
+            Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
+//            throw new Exception(ex);
+        } catch (Exception ex) {
             Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
 //            throw new Exception(ex);
         }

@@ -39,6 +39,13 @@ public class CityDataHelper implements IWrapper {
         this.wikipediaWrapper = new WikipediaWrapper(this.wikipediaFileName);
     }
     
+    /**
+     * Constructor which defaults to strict mode, meaning that helper will throw
+     * CityDataCouldNotBeFoundException exception if method could not find data.
+     * 
+     * @param cityName
+     * @param countryName 
+     */
     public CityDataHelper(String cityName, String countryName) {
         this.cityName = cityName;
         this.countryName = countryName;
@@ -47,6 +54,13 @@ public class CityDataHelper implements IWrapper {
         init();
     }
     
+    /**
+     * Constructor that gives possibility to create helper in non strict mode. If strict is set
+     * to false method will return null or other defaults if it could not find the data.
+     * @param cityName
+     * @param countryName
+     * @param strict 
+     */
     public CityDataHelper(String cityName, String countryName, boolean strict) {
         this.cityName = cityName;
         this.countryName = countryName;
