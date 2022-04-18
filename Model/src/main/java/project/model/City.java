@@ -90,7 +90,7 @@ public class City implements IXMLizable{
         city.addContent(new Element("name").setText(this.name));
         city.addContent(new Element("country").setText(this.country));
         city.addContent(new Element("isCapital").setText(this.isCapital ? "True" : "False"));
-//        city.addContent(new Element("countryFlag").setText(this.countryFlag));
+        city.addContent(new Element("countryFlag").setText(this.countryFlag));
         city.addContent(officialLanguages);
         city.addContent(new Element("cityFlag").setText(this.cityFlag));
         city.addContent(landmarks);
