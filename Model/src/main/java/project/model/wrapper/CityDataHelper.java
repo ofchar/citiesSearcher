@@ -15,14 +15,14 @@ import project.model.wrapper.exceptions.WikipediaWrapperException;
 
 public class CityDataHelper implements IWrapper {
     private String cityName;
+    private String countryName;
     private String wikipediaFileName;
     private String dbcityFileName;
+    private boolean strict;
     
     private WikipediaWrapper wikipediaWrapper;
     
-    public CityDataHelper(String cityName) {
-        this.cityName = cityName;
-        
+    private void init() {       
         try {
             this.makeWikipediaRequest();
         } catch (IOException ex) {
@@ -37,6 +37,22 @@ public class CityDataHelper implements IWrapper {
 //        }
 
         this.wikipediaWrapper = new WikipediaWrapper(this.wikipediaFileName);
+    }
+    
+    public CityDataHelper(String cityName, String countryName) {
+        this.cityName = cityName;
+        this.countryName = countryName;
+        this.strict = true;
+        
+        init();
+    }
+    
+    public CityDataHelper(String cityName, String countryName, boolean strict) {
+        this.cityName = cityName;
+        this.countryName = countryName;
+        this.strict = strict;
+        
+        init();
     }
     
     /**
@@ -64,12 +80,12 @@ public class CityDataHelper implements IWrapper {
     
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.cityName;
     }
 
     @Override
     public String getCountry() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.countryName;
     }
 
     @Override
@@ -80,17 +96,36 @@ public class CityDataHelper implements IWrapper {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        throw new CityDataCouldNotBeFoundException();
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
-    public String getCountryFlag() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getCountryFlag() throws CityDataCouldNotBeFoundException {
+        //Logic
+        
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    public List<String> getCountryLanguages() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<String> getCountryLanguages() throws CityDataCouldNotBeFoundException {
+        //Logic
+        
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return new ArrayList<String>();
+        }
     }
 
     @Override
@@ -101,7 +136,12 @@ public class CityDataHelper implements IWrapper {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        throw new CityDataCouldNotBeFoundException();
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
@@ -112,7 +152,12 @@ public class CityDataHelper implements IWrapper {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        throw new CityDataCouldNotBeFoundException();
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return new ArrayList<String>();
+        }
     }
 
     @Override
@@ -123,7 +168,12 @@ public class CityDataHelper implements IWrapper {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        throw new CityDataCouldNotBeFoundException();
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return -1;
+        }
     }
 
     @Override
@@ -134,7 +184,12 @@ public class CityDataHelper implements IWrapper {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        throw new CityDataCouldNotBeFoundException();
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return -1;
+        }
     }
 
     @Override
@@ -145,7 +200,12 @@ public class CityDataHelper implements IWrapper {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        throw new CityDataCouldNotBeFoundException();
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return -1;
+        }
     }
 
     @Override
@@ -156,7 +216,12 @@ public class CityDataHelper implements IWrapper {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        throw new CityDataCouldNotBeFoundException();
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
@@ -167,41 +232,95 @@ public class CityDataHelper implements IWrapper {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        throw new CityDataCouldNotBeFoundException();
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    public float getLatitude() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getLatitude() throws CityDataCouldNotBeFoundException {
+        //Logic
+        
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
-    public float getLongitude() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getLongitude() throws CityDataCouldNotBeFoundException {
+        //Logic
+        
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
-    public float getAltitude() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getAltitude() throws CityDataCouldNotBeFoundException {
+        //Logic
+        
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return 0;
+        }
     }
 
     @Override
-    public String getClimate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getClimate() throws CityDataCouldNotBeFoundException{
+        //Logic
+        
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    public String getTimezone() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getTimezone() throws CityDataCouldNotBeFoundException {
+        //Logic
+        
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    public String getWebsite() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getWebsite() throws CityDataCouldNotBeFoundException {
+        //Logic
+        
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    public List<String> getTwinTowns() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<String> getTwinTowns() throws CityDataCouldNotBeFoundException {
+        //Logic
+        
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return new ArrayList<String>();
+        }
     }
 }
