@@ -32,7 +32,7 @@ public class XMLHelper {
     
     
     /**
-     * Get root of document field
+     * Get root of document found in document field
      * 
      * @return Element
      */
@@ -57,12 +57,19 @@ public class XMLHelper {
         return currentElement;
     }
     
+    /**
+     * Get all children of root Element by name
+     * 
+     * @param root
+     * @param name
+     * @return List
+     */
     private List<Element> getElementsByName(Element root, String name) {
         return root.getChildren(name);
     }
     
     /**
-     * Check document field, throw exception if field is new (document was neither read
+     * Check document field, throw exception if field is null (document was neither read
      * nor created)
      * 
      * @throws XMLHelperDocumentNotExistsException 
@@ -88,10 +95,21 @@ public class XMLHelper {
         parentElement.addContent(element);
     }
     
+    /**
+     * Save changes to the file with name provided in the constructor.
+     * 
+     * @throws XMLerException 
+     */
     public void save() throws XMLerException {
         save(this.fileName);
     }
     
+    /**
+     * Save changes to the file with fileName file
+     * 
+     * @param fileName
+     * @throws XMLerException 
+     */
     public void save(String fileName) throws XMLerException {
         checkDocument();
         
@@ -99,8 +117,10 @@ public class XMLHelper {
     }
     
     /**
-     * Delete parent of element, it is way to overcomplicated to explain how it works.
-     * I will redesign it later.
+     * Delete parent of element.
+     * Path specifies where to look for elements to delete, parentName specifies name of the actual element
+     * that will be deleted. queryName and queryValue are used to query all potential elements, where name
+     * is a name of element inside parentElement, and value is.. value of that element :) 
      * 
      * @param path
      * @param parentName
@@ -118,6 +138,19 @@ public class XMLHelper {
         elements.removeIf(el -> el.getChild(queryName).getText().equals(queryValue));
     }
     
+    /**
+     * Find all matching elements.
+     * Path specifies where to look for elements, parentName specifies name of the actual element
+     * that we are querying. queryName and queryValue are used to query all potential elements, where name
+     * is a name of element inside parentElement, and value is.. value of that element :) 
+     * 
+     * @param path
+     * @param parentName
+     * @param queryName
+     * @param queryValue
+     * @return List
+     * @throws XMLHelperDocumentNotExistsException 
+     */
     public List findElements(String path, String parentName, String queryName, String queryValue) throws XMLHelperDocumentNotExistsException {
         checkDocument();
         
@@ -132,13 +165,33 @@ public class XMLHelper {
         return found;
     }
     
+    /**
+     * Check if there are any elements matching criteria.
+     * Path specifies where to look for elements, parentName specifies name of the actual element
+     * that we are querying. queryName and queryValue are used to query all potential elements, where name
+     * is a name of element inside parentElement, and value is.. value of that element :) 
+     * 
+     * @param path
+     * @param parentName
+     * @param queryName
+     * @param queryValue
+     * @return boolean
+     * @throws XMLHelperDocumentNotExistsException 
+     */
     public boolean checkElementExistence(String path, String parentName, String queryName, String queryValue) throws XMLHelperDocumentNotExistsException {
         List<Element> found = findElements(path, parentName, queryName, queryValue);
         
         return !found.isEmpty();
     }
     
-    public List getAll(String path) throws XMLHelperDocumentNotExistsException, Exception {
+    /**
+     * Get all elements at path.
+     * 
+     * @param path
+     * @return List
+     * @throws XMLHelperDocumentNotExistsException
+     */
+    public List getAll(String path) throws XMLHelperDocumentNotExistsException {
         checkDocument();
         
         Element root = getElement(getRoot(), path);
@@ -146,11 +199,29 @@ public class XMLHelper {
         return root.getChildren();
     }
     
-    public List get(String path) throws XMLHelperDocumentNotExistsException {
-        checkDocument();
+    /**
+     * Update element that matched criteria
+     * Path specifies where to look for elements, parentName specifies name of the actual element
+     * that we are querying. queryName and queryValue are used to query all potential elements, where name
+     * is a name of element inside parentElement, and value is.. value of that element :) 
+     * elementName specifies which element inside found Element will be updated, and newValue, well.. specifies new value.
+     * Sorry.
+     * 
+     * @param path
+     * @param parentName
+     * @param queryName
+     * @param queryValue
+     * @param elementName
+     * @param newValue
+     * @throws XMLHelperDocumentNotExistsException 
+     */
+    public void update(String path, String parentName, String queryName, String queryValue, String elementName, String newValue) throws XMLHelperDocumentNotExistsException {
+        List<Element> elements = findElements(path, parentName, queryName, queryValue);
         
-        Element root = getElement(getRoot(), path);
-                
-        return root.getChildren();
+        if(elements.isEmpty()) {
+            //but hey nothing to update
+        }
+        
+        elements.get(0).getChildren(elementName).get(0).setText(newValue);
     }
 }
