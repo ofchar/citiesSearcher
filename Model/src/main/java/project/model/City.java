@@ -1,5 +1,6 @@
 package project.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,10 +31,15 @@ public class City implements IXMLizable{
     private String website;
     private List<String> twinCities;
 
-    public City(String name, String country) {
-        this.name = name;
-        this.country = country;
+    public City(Element element) {
+        fillData(element);
     }
+    
+    public City(IWrapper dataWrapper) {
+        fillData(dataWrapper);
+    }
+    
+    public City() {}
     
     public void fillData(IWrapper dataWrapper) {
         try {
@@ -60,6 +66,27 @@ public class City implements IXMLizable{
             Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
 //            throw new Exception(ex);
         }
+    }
+    
+    public void fillData(Element xmlCityElement) {
+        this.name = xmlCityElement.getChildText("name");
+        this.country = xmlCityElement.getChildText("country");
+        this.isCapital = xmlCityElement.getChildText("isCapital").equals("True");
+        this.countryFlag = xmlCityElement.getChildText("countryFlag");
+        this.languages = new ArrayList<String>();
+        this.landmarks = new ArrayList<String>();
+        this.area = Float.parseFloat(xmlCityElement.getChildText("area"));
+        this.inhabitants = Integer.parseInt(xmlCityElement.getChildText("inhabitants"));
+        this.populationDensity = Float.parseFloat(xmlCityElement.getChildText("populationDensity"));
+        this.postalCode = xmlCityElement.getChildText("postalCode");
+        this.mayor = xmlCityElement.getChildText("mayor");
+        this.latitude = Float.parseFloat(xmlCityElement.getChildText("latitude"));
+        this.longitute = Float.parseFloat(xmlCityElement.getChildText("longitute"));
+        this.altitude = Float.parseFloat(xmlCityElement.getChildText("altitude"));
+        this.climate = xmlCityElement.getChildText("climate");
+        this.timezone = xmlCityElement.getChildText("timezone");
+        this.website = xmlCityElement.getChildText("website");
+        this.twinCities = new ArrayList<String>();
     }
     
     /**
