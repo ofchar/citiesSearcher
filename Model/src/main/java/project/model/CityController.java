@@ -54,6 +54,22 @@ public class CityController {
         }
     }
     
+    public Element get(String name) throws Exception {
+        try {
+            List<Element> elements = xmlHelper.findElements("cities", "city", "name", name);
+            
+            if(elements.isEmpty()) {
+                throw new Exception("404");
+            }
+            
+            //There *SHOULD* be just one element inside.
+            return elements.get(0);
+        } catch (XMLHelperDocumentNotExistsException ex) {
+            Logger.getLogger(CityController.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception("sfsdfsd");
+        }
+    }
+    
     public void create(String name, String country) throws Exception {
         try {
             if(checkCityExistence(name)) {
