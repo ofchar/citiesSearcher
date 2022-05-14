@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import project.model.wrapper.exceptions.CityDataCouldNotBeFoundException;
+import project.model.wrapper.exceptions.DbCityWrapperException;
 import project.model.wrapper.exceptions.WikipediaWrapperException;
 
 public class CityDataHelper implements IWrapper {
@@ -15,11 +16,19 @@ public class CityDataHelper implements IWrapper {
     private boolean strict;
 
     private WikipediaWrapper wikipediaWrapper;
+    private DBCityWrapper dbcityWrapper;
 
     private void init() {
         try {
             this.wikipediaWrapper = new WikipediaWrapper(this.cityName, this.countryName);
         } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        try {
+            this.dbcityWrapper = new DBCityWrapper(this.cityName, this.countryName);
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -71,7 +80,13 @@ public class CityDataHelper implements IWrapper {
         try {
             return this.wikipediaWrapper.isCapital();
         } catch (WikipediaWrapperException ex) {
-            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.isCapital();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
         }
 
         if(strict) {
@@ -84,7 +99,17 @@ public class CityDataHelper implements IWrapper {
 
     @Override
     public String getCountryFlag() throws CityDataCouldNotBeFoundException {
-        //Logic
+        try {
+            return this.wikipediaWrapper.getCountryFlag();
+        } catch (WikipediaWrapperException ex) {
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getCountryFlag();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
+        }
 
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
@@ -96,7 +121,17 @@ public class CityDataHelper implements IWrapper {
 
     @Override
     public List<String> getCountryLanguages() throws CityDataCouldNotBeFoundException {
-        //Logic
+        try {
+            return this.wikipediaWrapper.getCountryLanguages();
+        } catch (WikipediaWrapperException ex) {
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getCountryLanguages();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
+        }
 
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
@@ -111,7 +146,13 @@ public class CityDataHelper implements IWrapper {
         try {
             return this.wikipediaWrapper.getCityFlag();
         } catch (WikipediaWrapperException ex) {
-            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getCityFlag();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
         }
 
         if(strict) {
@@ -127,7 +168,13 @@ public class CityDataHelper implements IWrapper {
         try {
             return this.wikipediaWrapper.getCityLandmarks();
         } catch (WikipediaWrapperException ex) {
-            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getCityLandmarks();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
         }
 
         if(strict) {
@@ -143,7 +190,13 @@ public class CityDataHelper implements IWrapper {
         try {
             return this.wikipediaWrapper.getArea();
         } catch (WikipediaWrapperException ex) {
-            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getArea();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
         }
 
         if(strict) {
@@ -159,7 +212,13 @@ public class CityDataHelper implements IWrapper {
         try {
             return this.wikipediaWrapper.getInhabitants();
         } catch (WikipediaWrapperException ex) {
-            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getInhabitants();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
         }
 
         if(strict) {
@@ -175,7 +234,13 @@ public class CityDataHelper implements IWrapper {
         try {
             return this.wikipediaWrapper.getPopulationDensity();
         } catch (WikipediaWrapperException ex) {
-            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getPopulationDensity();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
         }
 
         if(strict) {
@@ -191,7 +256,13 @@ public class CityDataHelper implements IWrapper {
         try {
             return this.wikipediaWrapper.getPostalCode();
         } catch (WikipediaWrapperException ex) {
-            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getPostalCode();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
         }
 
         if(strict) {
@@ -207,7 +278,13 @@ public class CityDataHelper implements IWrapper {
         try {
             return this.wikipediaWrapper.getMayorName();
         } catch (WikipediaWrapperException ex) {
-            Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getMayorName();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
         }
 
         if(strict) {
@@ -220,7 +297,17 @@ public class CityDataHelper implements IWrapper {
 
     @Override
     public float getLatitude() throws CityDataCouldNotBeFoundException {
-        //Logic
+        try {
+            return this.wikipediaWrapper.getLatitude();
+        } catch (WikipediaWrapperException ex) {
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getLatitude();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
+        }
 
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
@@ -232,7 +319,17 @@ public class CityDataHelper implements IWrapper {
 
     @Override
     public float getLongitude() throws CityDataCouldNotBeFoundException {
-        //Logic
+        try {
+            return this.wikipediaWrapper.getLongitude();
+        } catch (WikipediaWrapperException ex) {
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getLongitude();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
+        }
 
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
@@ -244,7 +341,17 @@ public class CityDataHelper implements IWrapper {
 
     @Override
     public float getAltitude() throws CityDataCouldNotBeFoundException {
-        //Logic
+        try {
+            return this.wikipediaWrapper.getAltitude();
+        } catch (WikipediaWrapperException ex) {
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getAltitude();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
+        }
 
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
@@ -256,7 +363,17 @@ public class CityDataHelper implements IWrapper {
 
     @Override
     public String getClimate() throws CityDataCouldNotBeFoundException{
-        //Logic
+        try {
+            return this.wikipediaWrapper.getClimate();
+        } catch (WikipediaWrapperException ex) {
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getClimate();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
+        }
 
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
@@ -268,7 +385,17 @@ public class CityDataHelper implements IWrapper {
 
     @Override
     public String getTimezone() throws CityDataCouldNotBeFoundException {
-        //Logic
+        try {
+            return this.wikipediaWrapper.getTimezone();
+        } catch (WikipediaWrapperException ex) {
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getTimezone();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
+        }
 
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
@@ -280,7 +407,17 @@ public class CityDataHelper implements IWrapper {
 
     @Override
     public String getWebsite() throws CityDataCouldNotBeFoundException {
-        //Logic
+        try {
+            return this.wikipediaWrapper.getWebsite();
+        } catch (WikipediaWrapperException ex) {
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getWebsite();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
+        }
 
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
@@ -292,7 +429,17 @@ public class CityDataHelper implements IWrapper {
 
     @Override
     public List<String> getTwinTowns() throws CityDataCouldNotBeFoundException {
-        //Logic
+        try {
+            return this.wikipediaWrapper.getTwinTowns();
+        } catch (WikipediaWrapperException ex) {
+            // Nothing for now.
+        }
+
+        try {
+            return this.dbcityWrapper.getTwinTowns();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
+        }
 
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
