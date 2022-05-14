@@ -193,38 +193,54 @@ public class WikipediaWrapper implements IWrapper {
     }
 
     @Override
-    public float getLatitude() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getLatitude() throws WikipediaWrapperException {
+        String regex = "class=\\\"latitude\\\">(.*?)<";
+        
+        return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
     }
 
     @Override
-    public float getLongitude() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getLongitude() throws WikipediaWrapperException {
+        String regex = "class=\\\"longitude\\\">(.*?)<";
+        
+        return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
     }
 
     @Override
-    public float getAltitude() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public float getAltitude() throws WikipediaWrapperException {
+        String regex = "[eE]levation.*?>(\\d*?[–\\d]*?)\\&";
+        
+        return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
     }
 
     @Override
-    public String getClimate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getClimate() throws WikipediaWrapperException {
+        //Since there is not way to reliably get that data from Wikipedia city 
+        //page, we will simply throw this error every time.
+        //We could however find that in country's page, but thats out of scope here.
+        throw new WikipediaWrapperException("Data not found");
     }
 
     @Override
-    public String getTimezone() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getTimezone() throws WikipediaWrapperException {
+        String regex = "Time zone.*?title=\\\"(.*?)\\\"";
+        
+        return getMatch(regex, 1);
     }
 
     @Override
-    public String getWebsite() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String getWebsite() throws WikipediaWrapperException {
+        String regex = "Website.*?href=\\\"(.*?)\\\"";
+        
+        return getMatch(regex, 1);
     }
 
     @Override
-    public List<String> getTwinTowns() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<String> getTwinTowns() throws WikipediaWrapperException {
+        //Since there is not way to reliably get that data from Wikipedia city 
+        //page, we will simply throw this error every time.
+        //We could however find that in country's page, but thats out of scope here.
+        throw new WikipediaWrapperException("Data not found");
     }
     
 }
