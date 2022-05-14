@@ -2,6 +2,7 @@ package project.model.wrapper;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -15,11 +16,28 @@ import project.model.wrapper.exceptions.WikipediaWrapperException;
 
 public class WikipediaWrapper implements IWrapper {
 
+    private String cityName;
+    private String countryName;
     private String fileName;
     
-    public WikipediaWrapper(String fileName) {
-        this.fileName = fileName;
+    public WikipediaWrapper(String cityName, String countryName) throws IOException {
+        this.cityName = cityName;
+        this.countryName = countryName;
+
+        this.makeWikipediaRequest();
     }
+    
+    /**
+     * Make request to Wikipedia with cityName as a query
+     */
+    private void makeWikipediaRequest() throws IOException {
+        String link = "https://en.wikipedia.org/wiki/";
+        
+        this.fileName = "wikipedia_" + this.cityName;
+        
+        HttpRequestHelper.httpRequest1(link, cityName, this.fileName);
+    }
+    
     
     /**
      * Create new scanner from file fileName for other methods to use.

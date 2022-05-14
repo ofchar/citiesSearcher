@@ -22,21 +22,13 @@ public class CityDataHelper implements IWrapper {
     
     private WikipediaWrapper wikipediaWrapper;
     
-    private void init() {       
+    private void init() {
         try {
-            this.makeWikipediaRequest();
-        } catch (IOException ex) {
-            //this is fine
+            this.wikipediaWrapper = new WikipediaWrapper(this.cityName, this.countryName);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-
-//        Commented out since not yet working.
-//        try {
-//            this.makeDbcityRequest();
-//        } catch (IOException ex) {
-//            //this is fine
-//        }
-
-        this.wikipediaWrapper = new WikipediaWrapper(this.wikipediaFileName);
     }
     
     /**
@@ -67,17 +59,6 @@ public class CityDataHelper implements IWrapper {
         this.strict = strict;
         
         init();
-    }
-    
-    /**
-     * Make request to Wikipedia with cityName as a query
-     */
-    private void makeWikipediaRequest() throws IOException {
-        String link = "https://en.wikipedia.org/wiki/";
-        
-        this.wikipediaFileName = "wikipedia_" + this.cityName;
-        
-        HttpRequestHelper.httpRequest1(link, cityName, this.wikipediaFileName);
     }
     
     /**
