@@ -32,7 +32,7 @@ public class WikipediaWrapper implements IWrapper {
 
         this.fileName = "wikipedia_" + this.cityName;
 
-        HttpRequestHelper.httpRequest1(link, cityName, this.fileName);
+        HttpRequestHelper.httpRequest1(link, this.cityName, this.fileName);
     }
 
 
