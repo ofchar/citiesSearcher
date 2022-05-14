@@ -1,27 +1,21 @@
 package project.model.wrapper;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import project.model.wrapper.exceptions.CityDataCouldNotBeFoundException;
 import project.model.wrapper.exceptions.WikipediaWrapperException;
 
 public class CityDataHelper implements IWrapper {
     private String cityName;
     private String countryName;
-    private String wikipediaFileName;
     private String dbcityFileName;
     private boolean strict;
-    
+
     private WikipediaWrapper wikipediaWrapper;
-    
+
     private void init() {
         try {
             this.wikipediaWrapper = new WikipediaWrapper(this.cityName, this.countryName);
@@ -30,49 +24,38 @@ public class CityDataHelper implements IWrapper {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Constructor which defaults to strict mode, meaning that helper will throw
      * CityDataCouldNotBeFoundException exception if method could not find data.
-     * 
+     *
      * @param cityName
-     * @param countryName 
+     * @param countryName
      */
     public CityDataHelper(String cityName, String countryName) {
         this.cityName = cityName;
         this.countryName = countryName;
         this.strict = true;
-        
+
         init();
     }
-    
+
     /**
      * Constructor that gives possibility to create helper in non strict mode. If strict is set
      * to false method will return null or other defaults if it could not find the data.
      * @param cityName
      * @param countryName
-     * @param strict 
+     * @param strict
      */
     public CityDataHelper(String cityName, String countryName, boolean strict) {
         this.cityName = cityName;
         this.countryName = countryName;
         this.strict = strict;
-        
+
         init();
     }
-    
-    /**
-     * Make request to DBCity with cityName as a query
-     */
-    private void makeDbcityRequest() throws IOException {
-        String link = "https://en.db-city.com/";
-        
-        this.dbcityFileName = "dbcity_" + this.cityName;
-        
-        HttpRequestHelper.httpRequest1(link, cityName, this.dbcityFileName);
-    }
 
-    
+
     @Override
     public String getName() {
         return this.cityName;
@@ -90,7 +73,7 @@ public class CityDataHelper implements IWrapper {
         } catch (WikipediaWrapperException ex) {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -102,7 +85,7 @@ public class CityDataHelper implements IWrapper {
     @Override
     public String getCountryFlag() throws CityDataCouldNotBeFoundException {
         //Logic
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -114,7 +97,7 @@ public class CityDataHelper implements IWrapper {
     @Override
     public List<String> getCountryLanguages() throws CityDataCouldNotBeFoundException {
         //Logic
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -130,7 +113,7 @@ public class CityDataHelper implements IWrapper {
         } catch (WikipediaWrapperException ex) {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -146,7 +129,7 @@ public class CityDataHelper implements IWrapper {
         } catch (WikipediaWrapperException ex) {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -162,7 +145,7 @@ public class CityDataHelper implements IWrapper {
         } catch (WikipediaWrapperException ex) {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -178,7 +161,7 @@ public class CityDataHelper implements IWrapper {
         } catch (WikipediaWrapperException ex) {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -194,7 +177,7 @@ public class CityDataHelper implements IWrapper {
         } catch (WikipediaWrapperException ex) {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -210,7 +193,7 @@ public class CityDataHelper implements IWrapper {
         } catch (WikipediaWrapperException ex) {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -226,7 +209,7 @@ public class CityDataHelper implements IWrapper {
         } catch (WikipediaWrapperException ex) {
             Logger.getLogger(CityDataHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -238,7 +221,7 @@ public class CityDataHelper implements IWrapper {
     @Override
     public float getLatitude() throws CityDataCouldNotBeFoundException {
         //Logic
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -250,7 +233,7 @@ public class CityDataHelper implements IWrapper {
     @Override
     public float getLongitude() throws CityDataCouldNotBeFoundException {
         //Logic
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -262,7 +245,7 @@ public class CityDataHelper implements IWrapper {
     @Override
     public float getAltitude() throws CityDataCouldNotBeFoundException {
         //Logic
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -274,7 +257,7 @@ public class CityDataHelper implements IWrapper {
     @Override
     public String getClimate() throws CityDataCouldNotBeFoundException{
         //Logic
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -286,7 +269,7 @@ public class CityDataHelper implements IWrapper {
     @Override
     public String getTimezone() throws CityDataCouldNotBeFoundException {
         //Logic
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -298,7 +281,7 @@ public class CityDataHelper implements IWrapper {
     @Override
     public String getWebsite() throws CityDataCouldNotBeFoundException {
         //Logic
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }
@@ -310,7 +293,7 @@ public class CityDataHelper implements IWrapper {
     @Override
     public List<String> getTwinTowns() throws CityDataCouldNotBeFoundException {
         //Logic
-        
+
         if(strict) {
             throw new CityDataCouldNotBeFoundException();
         }

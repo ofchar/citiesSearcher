@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdom2.Element;
-import project.model.wrapper.CityDataHelper;
 import project.model.wrapper.IWrapper;
 import project.model.wrapper.exceptions.CityDataCouldNotBeFoundException;
 import project.model.xmler.IXMLizable;
@@ -34,13 +33,13 @@ public class City implements IXMLizable{
     public City(Element element) {
         fillData(element);
     }
-    
+
     public City(IWrapper dataWrapper) {
         fillData(dataWrapper);
     }
-    
+
     public City() {}
-    
+
     public void fillData(IWrapper dataWrapper) {
         try {
             this.isCapital = dataWrapper.isCapital();
@@ -67,7 +66,7 @@ public class City implements IXMLizable{
 //            throw new Exception(ex);
         }
     }
-    
+
     public void fillData(Element xmlCityElement) {
         this.name = xmlCityElement.getChildText("name");
         this.country = xmlCityElement.getChildText("country");
@@ -88,11 +87,11 @@ public class City implements IXMLizable{
         this.website = xmlCityElement.getChildText("website");
         this.twinCities = new ArrayList<String>();
     }
-    
+
     /**
      * Serialize City object to XML element for further use.
      * It will return root city element called "city", with every field as a child.
-     * 
+     *
      * @return Element
      */
     public Element toXML() {
@@ -112,8 +111,8 @@ public class City implements IXMLizable{
         for(String twinCity : this.twinCities) {
             twinCities.addContent(new Element("city").setText(twinCity));
         }
-        
-        
+
+
         city.addContent(new Element("name").setText(this.name));
         city.addContent(new Element("country").setText(this.country));
         city.addContent(new Element("isCapital").setText(this.isCapital ? "True" : "False"));
@@ -132,7 +131,7 @@ public class City implements IXMLizable{
         city.addContent(new Element("climate").setText(this.climate));
         city.addContent(new Element("timezone").setText(this.timezone));
         city.addContent(new Element("website").setText(this.website));
-        
+
         return city;
     }
 }

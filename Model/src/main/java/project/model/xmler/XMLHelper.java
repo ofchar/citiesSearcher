@@ -229,14 +229,14 @@ public class XMLHelper {
 
         elements.get(0).getChildren(elementName).get(0).setText(newValue);
     }
-    
+
     public List getXpath(String xpathString) throws XMLHelperDocumentNotExistsException {
         checkDocument();
-        
+
         XPathFactory xpath = XPathFactory.instance();
 
         XPathExpression<Element> expr = xpath.compile(xpathString, Filters.element());
-        
+
         return expr.evaluate(document);
     }
 }

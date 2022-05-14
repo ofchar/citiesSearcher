@@ -17,9 +17,9 @@ public class CityDocumentTemplater implements IDocumentTemplater {
 
         root.addContent(informationElement);
         root.addContent(citiesElement);
-        
+
         document.setContent(root);
-        
+
         return document;
     }
 }
