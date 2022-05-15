@@ -1,10 +1,16 @@
 package project.model.xmler;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.filter.Filters;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.input.sax.XMLReaderJDOMFactory;
+import org.jdom2.input.sax.XMLReaderXSDFactory;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import project.model.xmler.exceptions.XMLFileHelperException;
@@ -263,6 +269,28 @@ public class XMLHelper {
         XPathExpression<Element> expr = xpath.compile(xpathString, Filters.element());
 
         return expr.evaluate(document);
+    }
+
+
+    public boolean validateXsd(String xsdFilePath) throws Exception{
+        XMLReaderJDOMFactory factory;
+        try {
+            factory = new XMLReaderXSDFactory(new File(xsdFilePath));
+        } catch (JDOMException e) {
+            throw new Exception("provided file does not exissts");
+        }
+
+        SAXBuilder builder = new SAXBuilder(factory);
+
+        try {
+            builder.build(new File(this.fileName));
+        } catch (JDOMException e) {
+            return false;
+        } catch (IOException e) {
+            throw new Exception("error loading save xml file");
+        }
+
+        return true;
     }
 }
 
