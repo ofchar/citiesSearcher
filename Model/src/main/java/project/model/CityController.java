@@ -24,7 +24,7 @@ public class CityController {
             xmlHelper.readDocument();
         } catch (XMLFileHelperException ex) {
             //If we can't we should communicate that to user,
-            //however, we will just try to create new one. For now. Or for ever.
+            //however, we will just try to create new one. For now. Or forever.
             try {
                 xmlHelper.createDocument(new CityDocumentTemplater());
             } catch (XMLFileHelperException ex1) {
@@ -40,10 +40,10 @@ public class CityController {
 
 
 
-    public List index() throws Exception {
+    public List<City> index() throws Exception {
         try {
             List<Element> elements = xmlHelper.getAll("cities");
-            List cities = new ArrayList<City>();
+            List<City> cities = new ArrayList<City>();
 
             for(Element element : elements) {
                 cities.add(new City(element));

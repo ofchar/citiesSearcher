@@ -150,7 +150,7 @@ public class WikipediaWrapper implements IWrapper {
 
         Pattern pattern = Pattern.compile("(?:class=\\\"category\\\"(\\S+)|(?!^)\\G)(?:(?!src=\\\"(.*?)\\\").)+(src=\\\".*?\\\")"); //Iloveregex
 
-        List list = new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
@@ -207,22 +207,22 @@ public class WikipediaWrapper implements IWrapper {
     }
 
     @Override
-    public float getLatitude() throws WikipediaWrapperException {
+    public String getLatitude() throws WikipediaWrapperException {
         String regex = "class=\\\"latitude\\\">(.*?)<";
 
-        return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
+        return getMatch(regex, 1);
     }
 
     @Override
-    public float getLongitude() throws WikipediaWrapperException {
+    public String getLongitude() throws WikipediaWrapperException {
         String regex = "class=\\\"longitude\\\">(.*?)<";
 
-        return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
+        return getMatch(regex, 1);
     }
 
     @Override
     public float getAltitude() throws WikipediaWrapperException {
-        String regex = "[eE]levation.*?>(\\d*?[–\\d]*?)\\&";
+        String regex = "[eE]levation.*?>(\\d+[\\d-]*)[^\\d].*?m";
 
         return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
     }

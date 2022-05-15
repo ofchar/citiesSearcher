@@ -3,8 +3,6 @@ package project.model.wrapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import project.model.wrapper.exceptions.CityDataCouldNotBeFoundException;
 import project.model.wrapper.exceptions.DbCityWrapperException;
 import project.model.wrapper.exceptions.WikipediaWrapperException;
@@ -12,7 +10,6 @@ import project.model.wrapper.exceptions.WikipediaWrapperException;
 public class CityDataHelper implements IWrapper {
     private String cityName;
     private String countryName;
-    private String dbcityFileName;
     private boolean strict;
 
     private WikipediaWrapper wikipediaWrapper;
@@ -296,7 +293,7 @@ public class CityDataHelper implements IWrapper {
     }
 
     @Override
-    public float getLatitude() throws CityDataCouldNotBeFoundException {
+    public String getLatitude() throws CityDataCouldNotBeFoundException {
         try {
             return this.wikipediaWrapper.getLatitude();
         } catch (WikipediaWrapperException ex) {
@@ -313,12 +310,12 @@ public class CityDataHelper implements IWrapper {
             throw new CityDataCouldNotBeFoundException();
         }
         else {
-            return 0;
+            return null;
         }
     }
 
     @Override
-    public float getLongitude() throws CityDataCouldNotBeFoundException {
+    public String getLongitude() throws CityDataCouldNotBeFoundException {
         try {
             return this.wikipediaWrapper.getLongitude();
         } catch (WikipediaWrapperException ex) {
@@ -335,7 +332,7 @@ public class CityDataHelper implements IWrapper {
             throw new CityDataCouldNotBeFoundException();
         }
         else {
-            return 0;
+            return null;
         }
     }
 

@@ -127,19 +127,19 @@ public interface IWrapper {
      * Finds and returns city's latitude.
      * Throws Exception if data could not be found.
      *
-     * @return float
+     * @return String
      * @throws java.lang.Exception
      */
-    public float getLatitude() throws Exception;
+    public String getLatitude() throws Exception;
 
     /**
      * Finds and returns city's longitude.
      * Throws Exception if data could not be found.
      *
-     * @return float
+     * @return String
      * @throws java.lang.Exception
      */
-    public float getLongitude() throws Exception;
+    public String getLongitude() throws Exception;
 
     /**
      * Finds and returns city's altitude (in meters).

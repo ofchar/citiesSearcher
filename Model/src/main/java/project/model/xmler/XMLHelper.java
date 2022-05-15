@@ -21,15 +21,27 @@ public class XMLHelper {
         this.fileName = fileName;
     }
 
+    /**
+     * Read document from fileName provided in constructor, and store it in doument field.
+     *
+     * @throws XMLFileHelperException
+     */
     public void readDocument() throws XMLFileHelperException {
         this.document = XMLFileHelper.readXmlDocument(this.fileName);
     }
 
+    /**
+     * Create document from provided template and save it into file with name provided in constructor.
+     *
+     * @param template
+     * @throws XMLFileHelperException
+     */
     public void createDocument(IDocumentTemplater template) throws XMLFileHelperException {
         this.document = template.getTemplate();
 
         XMLFileHelper.writeDocumentToFile(this.document, this.fileName);
     }
+
 
     /**
      * Get root of document found in document field
@@ -82,21 +94,6 @@ public class XMLHelper {
     }
 
     /**
-     * Adds element to the parent element of XML document stored in field.
-     *
-     * @param parent
-     * @param element
-     * @throws XMLHelperDocumentNotExistsException
-     */
-    public void addToDocument(String parent, Element element) throws XMLHelperDocumentNotExistsException {
-        checkDocument();
-
-        Element parentElement = getElement(getRoot(), parent);
-
-        parentElement.addContent(element);
-    }
-
-    /**
      * Save changes to the file with name provided in the constructor.
      *
      * @throws XMLerException
@@ -117,12 +114,31 @@ public class XMLHelper {
         XMLFileHelper.writeDocumentToFile(this.document, fileName);
     }
 
+
+    /**
+     * Adds element to the parent element of XML document stored in field.
+     * This DOES NOT modify any file, it only changes document field of this class.
+     *
+     * @param parent
+     * @param element
+     * @throws XMLHelperDocumentNotExistsException
+     */
+    public void addToDocument(String parent, Element element) throws XMLHelperDocumentNotExistsException {
+        checkDocument();
+
+        Element parentElement = getElement(getRoot(), parent);
+
+        parentElement.addContent(element);
+    }
+
     /**
      * Delete parent of element. Path specifies where to look for elements to
      * delete, parentName specifies name of the actual element that will be
      * deleted. queryName and queryValue are used to query all potential
      * elements, where name is a name of element inside parentElement, and value
      * is.. value of that element :)
+     *
+     * This DOES NOT modify any file, it only changes document field of this class.
      *
      * @param path
      * @param parentName
@@ -154,7 +170,7 @@ public class XMLHelper {
      * @return List
      * @throws XMLHelperDocumentNotExistsException
      */
-    public List findElements(String path, String parentName, String queryName, String queryValue) throws XMLHelperDocumentNotExistsException {
+    public List<Element> findElements(String path, String parentName, String queryName, String queryValue) throws XMLHelperDocumentNotExistsException {
         checkDocument();
 
         Element root = getElement(getRoot(), path);
@@ -195,7 +211,7 @@ public class XMLHelper {
      * @return List
      * @throws XMLHelperDocumentNotExistsException
      */
-    public List getAll(String path) throws XMLHelperDocumentNotExistsException {
+    public List<Element> getAll(String path) throws XMLHelperDocumentNotExistsException {
         checkDocument();
 
         Element root = getElement(getRoot(), path);
@@ -211,6 +227,8 @@ public class XMLHelper {
      * is.. value of that element :) elementName specifies which element inside
      * found Element will be updated, and newValue, well.. specifies new value.
      * Sorry.
+     *
+     * This DOES NOT modify any file, it only changes document field of this class.
      *
      * @param path
      * @param parentName
@@ -230,7 +248,14 @@ public class XMLHelper {
         elements.get(0).getChildren(elementName).get(0).setText(newValue);
     }
 
-    public List getXpath(String xpathString) throws XMLHelperDocumentNotExistsException {
+    /**
+     * Get list of Elements found by xpath provided as the argument.
+     *
+     * @param xpathString
+     * @return
+     * @throws XMLHelperDocumentNotExistsException
+     */
+    public List<Element> getXpath(String xpathString) throws XMLHelperDocumentNotExistsException {
         checkDocument();
 
         XPathFactory xpath = XPathFactory.instance();

@@ -126,13 +126,13 @@ public class DBCityWrapper implements IWrapper {
     @Override
     public String getName() throws DbCityWrapperException {
         // TODO Auto-generated method stub
-        return null;
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
     public String getCountry() throws DbCityWrapperException {
         // TODO Auto-generated method stub
-        return null;
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
@@ -144,25 +144,25 @@ public class DBCityWrapper implements IWrapper {
     @Override
     public String getCountryFlag() throws DbCityWrapperException {
         // TODO Auto-generated method stub
-        return null;
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
     public List<String> getCountryLanguages() throws DbCityWrapperException {
         // TODO Auto-generated method stub
-        return null;
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
     public String getCityFlag() throws DbCityWrapperException {
         // TODO Auto-generated method stub
-        return null;
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
     public List<String> getCityLandmarks() throws DbCityWrapperException {
         // TODO Auto-generated method stub
-        return null;
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
@@ -186,26 +186,26 @@ public class DBCityWrapper implements IWrapper {
     @Override
     public String getPostalCode() throws DbCityWrapperException {
         // TODO Auto-generated method stub
-        return null;
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
     public String getMayorName() throws DbCityWrapperException {
-        return null;
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
-    public float getLatitude() throws DbCityWrapperException {
+    public String getLatitude() throws DbCityWrapperException {
         String regex = "class=\\\"latitude\\\">(.*?)<";
 
-        return Float.parseFloat(getMatch(regex, 1));
+        return getMatch(regex, 1);
     }
 
     @Override
-    public float getLongitude() throws DbCityWrapperException {
+    public String getLongitude() throws DbCityWrapperException {
         String regex = "class=\\\"longitude\\\">(.*?)<";
 
-        return Float.parseFloat(getMatch(regex, 1));
+        return getMatch(regex, 1);
     }
 
     @Override
@@ -239,7 +239,7 @@ public class DBCityWrapper implements IWrapper {
     @Override
     public List<String> getTwinTowns() throws DbCityWrapperException {
         // TODO Auto-generated method stub
-        return null;
+        throw new DbCityWrapperException("Data not found");
     }
     
 }

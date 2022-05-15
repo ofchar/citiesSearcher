@@ -22,8 +22,8 @@ public class City implements IXMLizable{
     private float populationDensity;
     private String postalCode;
     private String mayor;
-    private float latitude;
-    private float longitute;
+    private String latitude;
+    private String longitute;
     private float altitude;
     private String climate;
     private String timezone;
@@ -42,6 +42,8 @@ public class City implements IXMLizable{
 
     public void fillData(IWrapper dataWrapper) {
         try {
+            this.name = dataWrapper.getName();
+            this.country = dataWrapper.getCountry();
             this.isCapital = dataWrapper.isCapital();
             this.countryFlag = dataWrapper.getCountryFlag();
             this.languages = dataWrapper.getCountryLanguages();
@@ -79,8 +81,8 @@ public class City implements IXMLizable{
         this.populationDensity = Float.parseFloat(xmlCityElement.getChildText("populationDensity"));
         this.postalCode = xmlCityElement.getChildText("postalCode");
         this.mayor = xmlCityElement.getChildText("mayor");
-        this.latitude = Float.parseFloat(xmlCityElement.getChildText("latitude"));
-        this.longitute = Float.parseFloat(xmlCityElement.getChildText("longitute"));
+        this.latitude = xmlCityElement.getChildText("latitude");
+        this.longitute = xmlCityElement.getChildText("longitute");
         this.altitude = Float.parseFloat(xmlCityElement.getChildText("altitude"));
         this.climate = xmlCityElement.getChildText("climate");
         this.timezone = xmlCityElement.getChildText("timezone");
@@ -125,8 +127,8 @@ public class City implements IXMLizable{
         city.addContent(new Element("populationDensity").setText(Float.toString(this.populationDensity)).setAttribute("unit", "people/km2"));
         city.addContent(new Element("postalCode").setText(this.postalCode));
         city.addContent(new Element("mayor").setText(this.mayor));
-        city.addContent(new Element("latitude").setText(Float.toString(this.latitude)));
-        city.addContent(new Element("longitute").setText(Float.toString(this.longitute)));
+        city.addContent(new Element("latitude").setText(this.latitude));
+        city.addContent(new Element("longitute").setText(this.longitute));
         city.addContent(new Element("altitude").setText(Float.toString(this.altitude)).setAttribute("unit", "m"));
         city.addContent(new Element("climate").setText(this.climate));
         city.addContent(new Element("timezone").setText(this.timezone));
