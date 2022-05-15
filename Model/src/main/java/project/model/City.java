@@ -104,7 +104,7 @@ public class City implements IXMLizable{
             officialLanguages.addContent(new Element("language").setText(language));
         }
 
-        Element landmarks = new Element("officialLanguages");
+        Element landmarks = new Element("landmarks");
         for(String landmark : this.landmarks) {
             landmarks.addContent(new Element("landmark").setText(landmark));
         }
