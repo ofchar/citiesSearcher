@@ -128,7 +128,7 @@ public class City implements IXMLizable{
         city.addContent(new Element("postalCode").setText(this.postalCode));
         city.addContent(new Element("mayor").setText(this.mayor));
         city.addContent(new Element("latitude").setText(this.latitude));
-        city.addContent(new Element("longitute").setText(this.longitute));
+        city.addContent(new Element("longitude").setText(this.longitute));
         city.addContent(new Element("altitude").setText(Float.toString(this.altitude)).setAttribute("unit", "m"));
         city.addContent(new Element("climate").setText(this.climate));
         city.addContent(new Element("timezone").setText(this.timezone));
