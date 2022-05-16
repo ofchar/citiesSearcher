@@ -9,8 +9,7 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
-import org.jdom2.input.sax.XMLReaderJDOMFactory;
-import org.jdom2.input.sax.XMLReaderXSDFactory;
+import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import project.model.xmler.exceptions.XMLFileHelperException;
@@ -272,25 +271,37 @@ public class XMLHelper {
     }
 
 
-    public boolean validateXsd(String xsdFilePath) throws Exception{
-        XMLReaderJDOMFactory factory;
-        try {
-            factory = new XMLReaderXSDFactory(new File(xsdFilePath));
-        } catch (JDOMException e) {
-            throw new Exception("provided file does not exissts");
-        }
-
-        SAXBuilder builder = new SAXBuilder(factory);
+    /**
+     * Perform DTD or XSD validation of the document.
+     *
+     * @param type
+     * @return
+     * @throws Exception
+     */
+    private boolean validate(XMLReaders type) throws Exception {
+        SAXBuilder builder = new SAXBuilder(type);
 
         try {
             builder.build(new File(this.fileName));
         } catch (JDOMException e) {
             return false;
         } catch (IOException e) {
-            throw new Exception("error loading save xml file");
+            throw new Exception("Error while loading the file.");
         }
 
         return true;
+    }
+
+    public boolean validateXsd() throws Exception{
+        return validate(XMLReaders.XSDVALIDATING);
+    }
+
+    public boolean validateDtd() throws Exception{
+        return validate(XMLReaders.DTDVALIDATING);
+    }
+
+    public boolean validate() throws Exception {
+        return validateDtd() && validateXsd();
     }
 }
 
