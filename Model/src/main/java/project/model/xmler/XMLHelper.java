@@ -1,9 +1,21 @@
 package project.model.xmler;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -302,6 +314,26 @@ public class XMLHelper {
 
     public boolean validate() throws Exception {
         return validateDtd() && validateXsd();
+    }
+
+
+    public void transform() {
+        TransformerFactory f = TransformerFactory.newInstance();
+        Transformer t = null;
+        try {
+            t = f.newTransformer(new StreamSource("file.xslt"));
+        } catch (TransformerConfigurationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Source s = new StreamSource(this.fileName);
+        Result r = new StreamResult("result.html");
+        try {
+            t.transform(s,r);
+        } catch (TransformerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
 

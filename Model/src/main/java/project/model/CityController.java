@@ -137,4 +137,12 @@ public class CityController {
     public boolean validateDocument() throws Exception {
         return xmlHelper.validate();
     }
+
+
+    /**
+     * Transformations
+     */
+    public void transform() {
+        xmlHelper.transform();
+    }
 }
