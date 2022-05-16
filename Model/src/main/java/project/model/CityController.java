@@ -107,10 +107,10 @@ public class CityController {
 
 
     //searches by xpath below
-    public List getCitiesByName(String name) throws Exception {
+    public List<City> getCitiesByName(String name) throws Exception {
         try {
             List<Element> elements = xmlHelper.getXpath("//city[name = '" + name + "']");
-            List cities = new ArrayList<City>();
+            List<City> cities = new ArrayList<City>();
 
             for(Element element : elements) {
                 cities.add(new City(element));
@@ -121,5 +121,20 @@ public class CityController {
             Logger.getLogger(CityController.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception("asdf");
         }
+    }
+
+    /**
+     * VALIDATIONS
+     */
+    public boolean validateXsd() throws Exception {
+        return xmlHelper.validateXsd();
+    }
+
+    public boolean validateDtd() throws Exception {
+        return xmlHelper.validateDtd();
+    }
+
+    public boolean validateDocument() throws Exception {
+        return xmlHelper.validate();
     }
 }
