@@ -3,6 +3,7 @@ package project.model.wrapper;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -137,61 +138,125 @@ public class DBCityWrapper implements IWrapper {
 
     @Override
     public boolean isCapital() throws DbCityWrapperException {
-        // TODO Auto-generated method stub
-        return false;
+        Scanner scanner = createScanner();
+
+        Pattern pattern = Pattern.compile("");
+
+        try {
+            findPattern(scanner, pattern);
+        }
+        catch (NoSuchElementException e) {
+            //Here we can assume that if nothing matching pattern was found, the city
+            //simply isn't a capital.
+            return false;
+        }
+
+        scanner.close();
+
+        return true;
     }
 
     @Override
     public String getCountryFlag() throws DbCityWrapperException {
-        // TODO Auto-generated method stub
-        throw new DbCityWrapperException("Data not found");
+        String regex = "";
+
+        return getMatch(regex, 1);
     }
 
     @Override
     public List<String> getCountryLanguages() throws DbCityWrapperException {
-        // TODO Auto-generated method stub
-        throw new DbCityWrapperException("Data not found");
+        Scanner scanner = createScanner();
+
+        Pattern pattern = Pattern.compile(""); //Iloveregex
+
+        List<String> list = new ArrayList<String>();
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+
+            Matcher matcher = pattern.matcher(line);
+
+            while (matcher.find()) {
+                list.add(matcher.group(2));
+            }
+        }
+
+        scanner.close();
+
+        if(list.isEmpty()) {
+            throw new DbCityWrapperException("Data not found");
+        }
+
+        return list;
     }
 
     @Override
     public String getCityFlag() throws DbCityWrapperException {
-        // TODO Auto-generated method stub
-        throw new DbCityWrapperException("Data not found");
+        String regex = "";
+
+        return getMatch(regex, 1);
     }
 
     @Override
     public List<String> getCityLandmarks() throws DbCityWrapperException {
-        // TODO Auto-generated method stub
-        throw new DbCityWrapperException("Data not found");
+        Scanner scanner = createScanner();
+
+        Pattern pattern = Pattern.compile(""); //Iloveregex
+
+        List<String> list = new ArrayList<String>();
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+
+            Matcher matcher = pattern.matcher(line);
+
+            while (matcher.find()) {
+                list.add(matcher.group(2));
+            }
+        }
+
+        scanner.close();
+
+        if(list.isEmpty()) {
+            throw new DbCityWrapperException("Data not found");
+        }
+
+        return list;
     }
 
     @Override
     public float getArea() throws DbCityWrapperException {
-        // TODO Auto-generated method stub
-        return 0;
+        String regex = "";
+
+        return Float.parseFloat(getMatch(regex, 1));
     }
 
     @Override
     public int getInhabitants() throws DbCityWrapperException {
-        // TODO Auto-generated method stub
-        return 0;
+        String regex = "";
+
+        return Integer.parseInt(getMatch(regex, 1));
     }
 
     @Override
     public float getPopulationDensity() throws DbCityWrapperException {
-        // TODO Auto-generated method stub
-        return 0;
+        String regex = "";
+
+        return Float.parseFloat(getMatch(regex, 1));
     }
 
     @Override
     public String getPostalCode() throws DbCityWrapperException {
-        // TODO Auto-generated method stub
-        throw new DbCityWrapperException("Data not found");
+        String regex = "";
+
+        return getMatch(regex, 1);
     }
 
     @Override
     public String getMayorName() throws DbCityWrapperException {
-        throw new DbCityWrapperException("Data not found");
+        String regex = "";
+
+        return getMatch(regex, 1);
     }
 
     @Override
@@ -238,8 +303,29 @@ public class DBCityWrapper implements IWrapper {
 
     @Override
     public List<String> getTwinTowns() throws DbCityWrapperException {
-        // TODO Auto-generated method stub
-        throw new DbCityWrapperException("Data not found");
+        Scanner scanner = createScanner();
+
+        Pattern pattern = Pattern.compile(""); //Iloveregex
+
+        List<String> list = new ArrayList<String>();
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+
+            Matcher matcher = pattern.matcher(line);
+
+            while (matcher.find()) {
+                list.add(matcher.group(2));
+            }
+        }
+
+        scanner.close();
+
+        if(list.isEmpty()) {
+            throw new DbCityWrapperException("Data not found");
+        }
+
+        return list;
     }
     
 }

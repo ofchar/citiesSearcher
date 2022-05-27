@@ -40,6 +40,11 @@ public class City implements IXMLizable{
 
     public City() {}
 
+    /**
+     * Fill fields of the class based on data from provided dataWrapper
+     *
+     * @param dataWrapper
+     */
     public void fillData(IWrapper dataWrapper) {
         try {
             this.name = dataWrapper.getName();
@@ -69,6 +74,11 @@ public class City implements IXMLizable{
         }
     }
 
+    /**
+     * Fill fields of the class based on cityElement from xml file
+     *
+     * @param xmlCityElement
+     */
     public void fillData(Element xmlCityElement) {
         this.name = xmlCityElement.getChildText("name");
         this.country = xmlCityElement.getChildText("country");
