@@ -6,10 +6,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdom2.Element;
+
+import project.model.exceptions.ModelException;
 import project.model.wrapper.CityDataHelper;
 import project.model.xmler.XMLHelper;
 import project.model.xmler.exceptions.XMLFileHelperException;
 import project.model.xmler.exceptions.XMLHelperDocumentNotExistsException;
+import project.model.xmler.exceptions.XMLHelperException;
 import project.model.xmler.exceptions.XMLerException;
 import project.model.xmler.templater.CityDocumentTemplater;
 
@@ -40,42 +43,61 @@ public class CityController {
 
 
 
-    public List<City> index() throws Exception {
-        try {
-            List<Element> elements = xmlHelper.getAll("cities");
+    /**
+     * CRUD methods
+     * @throws Exception
+     */
+
+    /**
+     * Get List of all cities stored in file.
+     *
+     * @return List
+     * @throws Exception
+     */
+    public List<City> index() throws Exception{
+            List<Element> elements = null;
+
+            try {
+                elements = xmlHelper.getAll("cities");
+            } catch (XMLHelperDocumentNotExistsException e) {
+                throw new ModelException("XML file not loaded", e);
+            }
+
             List<City> cities = new ArrayList<City>();
 
-            for(Element element : elements) {
-                cities.add(new City(element));
-            }
+            elements.forEach((element) -> cities.add(new City(element)));
 
             return cities;
-        } catch (XMLHelperDocumentNotExistsException ex) {
-            Logger.getLogger(CityController.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception("asdf");
-        }
     }
 
-    public Element get(String name) throws Exception {
+    /**
+     * Get city from file by city name.
+     * Method assumes that there must be no more than one city with same name.
+     *
+     * @param name
+     * @return City
+     * @throws ModelException
+     */
+    public City get(String name) throws ModelException {
+        List<Element> elements;
+
         try {
-            List<Element> elements = xmlHelper.findElements("cities", "city", "name", name);
-
-            if(elements.isEmpty()) {
-                throw new Exception("404");
-            }
-
-            //There *SHOULD* be just one element inside.
-            return elements.get(0);
-        } catch (XMLHelperDocumentNotExistsException ex) {
-            Logger.getLogger(CityController.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception("sfsdfsd");
+            elements = xmlHelper.findElements("cities", "city", "name", name);
+        } catch (XMLHelperDocumentNotExistsException e) {
+            throw new ModelException("XML file not loaded", e);
         }
+
+        if(elements.isEmpty()) {
+            throw new ModelException("404");
+        }
+
+        return new City(elements.get(0));
     }
 
-    public void create(String name, String country) throws Exception {
+    public void create(String name, String country) throws ModelException {
         try {
             if(checkCityExistence(name)) {
-                throw new Exception("Already exist");
+                throw new ModelException("City already exist");
             }
 
             City newCity = new City(new CityDataHelper(name, country, false));
@@ -83,49 +105,81 @@ public class CityController {
             xmlHelper.addToDocument("cities", newCity.toXML());
 
             xmlHelper.save();
-
-        } catch (XMLHelperDocumentNotExistsException ex) {
-            Logger.getLogger(CityController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (XMLHelperDocumentNotExistsException e) {
+            throw new ModelException("XML file not loaded", e);
+        }
+        catch (XMLFileHelperException e) {
+            throw new ModelException("Could not save modified XML file", e);
         }
 
     }
 
-    public void update(String name, Map<String, String> changes) {
+    public void update(String name, String elementToChange, String newValue) throws ModelException {
         try {
-            for (String key : changes.keySet()) {
-                xmlHelper.update("cities", "city", "name", name, key, changes.get(key));
-            }
+            xmlHelper.update("cities", "city", "name", name, elementToChange, newValue);
 
             xmlHelper.save();
         }
-        catch (XMLHelperDocumentNotExistsException ex) {
-            //
-        } catch (XMLerException ex) {
-            //
+        catch (XMLHelperDocumentNotExistsException e) {
+            throw new ModelException("XML file not loaded", e);
+        }
+        catch (XMLFileHelperException e) {
+            throw new ModelException("Could not save modified XML file", e);
+        }
+        catch (XMLerException e) {
+            throw new ModelException("Could not perform update", e);
         }
     }
 
 
-    //searches by xpath below
-    public List<City> getCitiesByName(String name) throws Exception {
+
+    /**
+     * XPATH searches methods
+     */
+
+    private List<City> getCitiesByXpath(String xpath) throws ModelException {
+        List<Element> elements;
+
         try {
-            List<Element> elements = xmlHelper.getXpath("//city[name = '" + name + "']");
-            List<City> cities = new ArrayList<City>();
-
-            for(Element element : elements) {
-                cities.add(new City(element));
-            }
-
-            return cities;
-        } catch (XMLHelperDocumentNotExistsException ex) {
-            Logger.getLogger(CityController.class.getName()).log(Level.SEVERE, null, ex);
-            throw new Exception("asdf");
+            elements = xmlHelper.getXpath(xpath);
+        } catch (XMLHelperDocumentNotExistsException e) {
+            throw new ModelException("XML file not loaded", e);
         }
+
+        List<City> cities = new ArrayList<City>();
+
+        elements.forEach((element) -> cities.add(new City(element)));
+
+        return cities;
     }
+
+    public List<City> getCitiesByName(String name) throws ModelException {
+        return getCitiesByXpath("//city[name = '" + name + "']");
+    }
+
+    public List<City> getCitiesOfCountry(String country) throws ModelException {
+        return getCitiesByXpath("//city[country = '" + country + "']");
+    }
+
+    public List<City> getCitiesByMinPopulation(int minPopulation) throws ModelException {
+        return getCitiesByXpath("//city[inhabitants/text() > " + minPopulation + "]");
+    }
+
+    public List<City> getCitiesByClimate(String climate) throws ModelException {
+        return getCitiesByXpath("//city[climate = '" + climate + "']");
+    }
+
+    public List<City> getCapitals() throws ModelException {
+        return getCitiesByXpath("//city[isCapital/text() = 'True']");
+    }
+
+
 
     /**
      * VALIDATIONS
      */
+
     public boolean validateXsd() throws Exception {
         return xmlHelper.validateXsd();
     }
@@ -135,14 +189,21 @@ public class CityController {
     }
 
     public boolean validateDocument() throws Exception {
-        return xmlHelper.validate();
+        return validateDtd() && validateXsd();
     }
+
 
 
     /**
      * Transformations
      */
+
     public void transform() {
-        xmlHelper.transform();
+        try {
+            xmlHelper.transform("resources/transformation/test.xsl", "test.html");
+        } catch (XMLHelperException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
