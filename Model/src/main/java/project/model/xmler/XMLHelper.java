@@ -26,6 +26,7 @@ import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import project.model.xmler.exceptions.XMLFileHelperException;
 import project.model.xmler.exceptions.XMLHelperDocumentNotExistsException;
+import project.model.xmler.exceptions.XMLHelperException;
 import project.model.xmler.exceptions.XMLerException;
 import project.model.xmler.templater.IDocumentTemplater;
 
@@ -70,7 +71,7 @@ public class XMLHelper {
     }
 
     /**
-     * Find element inside root Element by path, where path are nodes separated
+     * Find element inside root Element by path, where path is nodes separated
      * by dot (.)
      *
      * @param root
@@ -113,9 +114,10 @@ public class XMLHelper {
     /**
      * Save changes to the file with name provided in the constructor.
      *
-     * @throws XMLerException
+     * @throws XMLHelperDocumentNotExistsException
+     * @throws XMLFileHelperException
      */
-    public void save() throws XMLerException {
+    public void save() throws XMLHelperDocumentNotExistsException,XMLFileHelperException {
         save(this.fileName);
     }
 
@@ -123,9 +125,10 @@ public class XMLHelper {
      * Save changes to the file with fileName file
      *
      * @param fileName
-     * @throws XMLerException
+     * @throws XMLHelperDocumentNotExistsException
+     * @throws XMLFileHelperException
      */
-    public void save(String fileName) throws XMLerException {
+    public void save(String fileName) throws XMLHelperDocumentNotExistsException, XMLFileHelperException {
         checkDocument();
 
         XMLFileHelper.writeDocumentToFile(this.document, fileName);
@@ -255,11 +258,11 @@ public class XMLHelper {
      * @param newValue
      * @throws XMLHelperDocumentNotExistsException
      */
-    public void update(String path, String parentName, String queryName, String queryValue, String elementName, String newValue) throws XMLHelperDocumentNotExistsException {
+    public void update(String path, String parentName, String queryName, String queryValue, String elementName, String newValue) throws XMLHelperException {
         List<Element> elements = findElements(path, parentName, queryName, queryValue);
 
         if (elements.isEmpty()) {
-            //but hey nothing to update
+            throw new XMLHelperException("Nothing to update");
         }
 
         elements.get(0).getChildren(elementName).get(0).setText(newValue);
@@ -290,7 +293,7 @@ public class XMLHelper {
      * @return
      * @throws Exception
      */
-    private boolean validate(XMLReaders type) throws Exception {
+    private boolean validate(XMLReaders type) throws XMLFileHelperException {
         SAXBuilder builder = new SAXBuilder(type);
 
         try {
@@ -298,7 +301,7 @@ public class XMLHelper {
         } catch (JDOMException e) {
             return false;
         } catch (IOException e) {
-            throw new Exception("Error while loading the file.");
+            throw new XMLFileHelperException("Error while loading file", e);
         }
 
         return true;
@@ -312,27 +315,24 @@ public class XMLHelper {
         return validate(XMLReaders.DTDVALIDATING);
     }
 
-    public boolean validate() throws Exception {
-        return validateDtd() && validateXsd();
-    }
 
+    public void transform(String xslFile, String resultFileName) throws XMLHelperException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = null;
 
-    public void transform() {
-        TransformerFactory f = TransformerFactory.newInstance();
-        Transformer t = null;
         try {
-            t = f.newTransformer(new StreamSource("file.xslt"));
+            transformer = transformerFactory.newTransformer(new StreamSource(xslFile));
         } catch (TransformerConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new XMLHelperException(e);
         }
-        Source s = new StreamSource(this.fileName);
-        Result r = new StreamResult("result.html");
+
+        Source sourceStream = new StreamSource(this.fileName);
+        Result resultStream = new StreamResult(resultFileName);
+
         try {
-            t.transform(s,r);
+            transformer.transform(sourceStream, resultStream);
         } catch (TransformerException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new XMLHelperException(e);
         }
     }
 }
