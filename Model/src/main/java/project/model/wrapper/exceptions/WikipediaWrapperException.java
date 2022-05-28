@@ -1,6 +1,6 @@
 package project.model.wrapper.exceptions;
 
-public class WikipediaWrapperException extends Exception {
+public class WikipediaWrapperException extends WrapperException {
 
     public WikipediaWrapperException() {
     }

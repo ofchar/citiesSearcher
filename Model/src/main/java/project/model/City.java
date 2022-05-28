@@ -2,11 +2,11 @@ package project.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jdom2.Element;
+
+import project.model.exceptions.ModelException;
 import project.model.wrapper.IWrapper;
-import project.model.wrapper.exceptions.CityDataCouldNotBeFoundException;
+import project.model.wrapper.exceptions.WrapperException;
 import project.model.xmler.IXMLizable;
 
 public class City implements IXMLizable{
@@ -34,18 +34,20 @@ public class City implements IXMLizable{
         fillData(element);
     }
 
-    public City(IWrapper dataWrapper) {
+    public City(IWrapper dataWrapper) throws ModelException {
         fillData(dataWrapper);
     }
 
     public City() {}
 
+
     /**
      * Fill fields of the class based on data from provided dataWrapper
      *
      * @param dataWrapper
+     * @throws ModelException
      */
-    public void fillData(IWrapper dataWrapper) {
+    public void fillData(IWrapper dataWrapper) throws ModelException {
         try {
             this.name = dataWrapper.getName();
             this.country = dataWrapper.getCountry();
@@ -65,12 +67,9 @@ public class City implements IXMLizable{
             this.timezone = dataWrapper.getTimezone();
             this.website = dataWrapper.getWebsite();
             this.twinCities = dataWrapper.getTwinTowns();
-        } catch (CityDataCouldNotBeFoundException ex) {
-            Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
-//            throw new Exception(ex);
-        } catch (Exception ex) {
-            Logger.getLogger(City.class.getName()).log(Level.SEVERE, null, ex);
-//            throw new Exception(ex);
+        }
+        catch (WrapperException ex) {
+            throw new ModelException("Could not create a city, missing data", ex);
         }
     }
 
@@ -84,8 +83,6 @@ public class City implements IXMLizable{
         this.country = xmlCityElement.getChildText("country");
         this.isCapital = xmlCityElement.getChildText("isCapital").equals("True");
         this.countryFlag = xmlCityElement.getChildText("countryFlag");
-        this.languages = new ArrayList<String>();
-        this.landmarks = new ArrayList<String>();
         this.area = Float.parseFloat(xmlCityElement.getChildText("area"));
         this.inhabitants = Integer.parseInt(xmlCityElement.getChildText("inhabitants"));
         this.populationDensity = Float.parseFloat(xmlCityElement.getChildText("populationDensity"));
@@ -97,7 +94,20 @@ public class City implements IXMLizable{
         this.climate = xmlCityElement.getChildText("climate");
         this.timezone = xmlCityElement.getChildText("timezone");
         this.website = xmlCityElement.getChildText("website");
+
+
+
+        this.languages = new ArrayList<String>();
+        Element languagesElement = xmlCityElement.getChild("languages");
+        languagesElement.getChildren().forEach((language) -> this.languages.add(language.getText()));
+
+        this.landmarks = new ArrayList<String>();
+        Element landmarksElement = xmlCityElement.getChild("landmarks");
+        landmarksElement.getChildren().forEach((landmark) -> this.landmarks.add(landmark.getText()));
+
         this.twinCities = new ArrayList<String>();
+        Element twinCitiesElement = xmlCityElement.getChild("twinCities");
+        twinCitiesElement.getChildren().forEach((city) -> this.twinCities.add(city.getText()));
     }
 
     /**
@@ -143,7 +153,90 @@ public class City implements IXMLizable{
         city.addContent(new Element("climate").setText(this.climate));
         city.addContent(new Element("timezone").setText(this.timezone));
         city.addContent(new Element("website").setText(this.website));
+        city.addContent(twinCities);
 
         return city;
+    }
+
+
+
+    /**
+     * Getters :)
+     */
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public boolean isIsCapital() {
+        return isCapital;
+    }
+
+    public String getCountryFlag() {
+        return countryFlag;
+    }
+
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    public String getCityFlag() {
+        return cityFlag;
+    }
+
+    public List<String> getLandmarks() {
+        return landmarks;
+    }
+
+    public float getArea() {
+        return area;
+    }
+
+    public int getInhabitants() {
+        return inhabitants;
+    }
+
+    public float getPopulationDensity() {
+        return populationDensity;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getMayor() {
+        return mayor;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitute() {
+        return longitute;
+    }
+
+    public float getAltitude() {
+        return altitude;
+    }
+
+    public String getClimate() {
+        return climate;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public List<String> getTwinCities() {
+        return twinCities;
     }
 }

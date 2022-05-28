@@ -136,6 +136,7 @@ public class WikipediaWrapper implements IWrapper {
         //We could however find that in country's page, but thats out of scope here.
         throw new WikipediaWrapperException("Data not found");
     }
+    
 
     @Override
     public String getCityFlag() throws WikipediaWrapperException {

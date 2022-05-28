@@ -1,6 +1,6 @@
 package project.model.wrapper.exceptions;
 
-public class CityDataCouldNotBeFoundException extends Exception {
+public class CityDataCouldNotBeFoundException extends WrapperException {
 
     public CityDataCouldNotBeFoundException() {
     }

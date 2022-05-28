@@ -1,6 +1,6 @@
 package project.model.wrapper.exceptions;
 
-public class DbCityWrapperException extends Exception {
+public class DbCityWrapperException extends WrapperException {
 
     public DbCityWrapperException() {
     }
