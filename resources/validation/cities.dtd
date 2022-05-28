@@ -1,0 +1,32 @@
+<!ELEMENT citiesSearcher (cities)>
+<!ATTLIST citiesSearcher xmlns:xsi CDATA #IMPLIED
+                        xsi:noNamespaceSchemaLocation CDATA #IMPLIED>
+
+<!ELEMENT cities (city+)>
+<!ELEMENT city (name, country, isCapital, countryFlag, officialLanguages,
+    cityFlag, landmarks, area, inhabitants, populationDensity,
+    postalCode, mayor, latitude, longitude, altitude, climate, timezone, website)>
+
+    <!ELEMENT name (#PCDATA)>
+    <!ELEMENT country (#PCDATA)>
+    <!ELEMENT isCapital (#PCDATA)>
+    <!ELEMENT countryFlag (#PCDATA)>
+    <!ELEMENT officialLanguages (language*)>
+        <!ELEMENT language (#PCDATA)>
+    <!ELEMENT cityFlag (#PCDATA)>
+    <!ELEMENT landmarks (landmark*)>
+        <!ELEMENT landmark (#PCDATA)>
+    <!ELEMENT area (#PCDATA)>
+        <!ATTLIST area unit CDATA "km2">
+    <!ELEMENT inhabitants (#PCDATA)>
+    <!ELEMENT populationDensity (#PCDATA)>
+        <!ATTLIST populationDensity unit CDATA "people/km2">
+    <!ELEMENT postalCode (#PCDATA)>
+    <!ELEMENT mayor (#PCDATA)>
+    <!ELEMENT latitude (#PCDATA)>
+    <!ELEMENT longitude (#PCDATA)>
+    <!ELEMENT altitude (#PCDATA)>
+        <!ATTLIST altitude unit CDATA "m">
+    <!ELEMENT climate (#PCDATA)>
+    <!ELEMENT timezone (#PCDATA)>
+    <!ELEMENT website (#PCDATA)>
