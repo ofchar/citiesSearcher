@@ -11,6 +11,7 @@ import java.io.Reader;
 import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import project.model.xmler.exceptions.XMLFileHelperException;
@@ -29,7 +30,7 @@ public class XMLFileHelper {
 
             Reader reader = new BufferedReader(stream);
 
-            SAXBuilder builder = new SAXBuilder();
+            SAXBuilder builder = new SAXBuilder(XMLReaders.NONVALIDATING);
             
             Document anotherDocument = builder.build(reader);
             

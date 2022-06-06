@@ -11,12 +11,12 @@ public class CityDocumentTemplater implements IDocumentTemplater {
         Element root = new Element("citiesSearcher");
 
         //DTD declaration
-        DocType docType = new DocType("citiesSearcher", "resources/validation/cities.dtd");
+        DocType docType = new DocType("citiesSearcher", "../resources/validation/cities.dtd");
 
         //XSD declaration
         Namespace xsi = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         root.addNamespaceDeclaration(xsi);
-        root.setAttribute("noNamespaceSchemaLocation","resources/validation/cities.xsd", xsi);
+        root.setAttribute("noNamespaceSchemaLocation","../resources/validation/cities.xsd", xsi);
 
         Element citiesElement = new Element("cities");
 

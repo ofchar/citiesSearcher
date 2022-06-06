@@ -23,7 +23,7 @@ public class City implements IXMLizable{
     private String postalCode;
     private String mayor;
     private String latitude;
-    private String longitute;
+    private String longitude;
     private float altitude;
     private String climate;
     private String timezone;
@@ -61,7 +61,7 @@ public class City implements IXMLizable{
             this.postalCode = dataWrapper.getPostalCode();
             this.mayor = dataWrapper.getMayorName();
             this.latitude = dataWrapper.getLatitude();
-            this.longitute = dataWrapper.getLongitude();
+            this.longitude = dataWrapper.getLongitude();
             this.altitude = dataWrapper.getAltitude();
             this.climate = dataWrapper.getClimate();
             this.timezone = dataWrapper.getTimezone();
@@ -89,7 +89,7 @@ public class City implements IXMLizable{
         this.postalCode = xmlCityElement.getChildText("postalCode");
         this.mayor = xmlCityElement.getChildText("mayor");
         this.latitude = xmlCityElement.getChildText("latitude");
-        this.longitute = xmlCityElement.getChildText("longitute");
+        this.longitude = xmlCityElement.getChildText("longitude");
         this.altitude = Float.parseFloat(xmlCityElement.getChildText("altitude"));
         this.climate = xmlCityElement.getChildText("climate");
         this.timezone = xmlCityElement.getChildText("timezone");
@@ -98,16 +98,16 @@ public class City implements IXMLizable{
 
 
         this.languages = new ArrayList<String>();
-        Element languagesElement = xmlCityElement.getChild("languages");
-        languagesElement.getChildren().forEach((language) -> this.languages.add(language.getText()));
+//        Element languagesElement = xmlCityElement.getChild("languages");
+//        languagesElement.getChildren().forEach((language) -> this.languages.add(language.getText()));
 
         this.landmarks = new ArrayList<String>();
         Element landmarksElement = xmlCityElement.getChild("landmarks");
         landmarksElement.getChildren().forEach((landmark) -> this.landmarks.add(landmark.getText()));
 
         this.twinCities = new ArrayList<String>();
-        Element twinCitiesElement = xmlCityElement.getChild("twinCities");
-        twinCitiesElement.getChildren().forEach((city) -> this.twinCities.add(city.getText()));
+//        Element twinCitiesElement = xmlCityElement.getChild("twinCities");
+//        twinCitiesElement.getChildren().forEach((city) -> this.twinCities.add(city.getText()));
     }
 
     /**
@@ -148,7 +148,7 @@ public class City implements IXMLizable{
         city.addContent(new Element("postalCode").setText(this.postalCode));
         city.addContent(new Element("mayor").setText(this.mayor));
         city.addContent(new Element("latitude").setText(this.latitude));
-        city.addContent(new Element("longitude").setText(this.longitute));
+        city.addContent(new Element("longitude").setText(this.longitude));
         city.addContent(new Element("altitude").setText(Float.toString(this.altitude)).setAttribute("unit", "m"));
         city.addContent(new Element("climate").setText(this.climate));
         city.addContent(new Element("timezone").setText(this.timezone));
@@ -172,7 +172,7 @@ public class City implements IXMLizable{
         return country;
     }
 
-    public boolean isIsCapital() {
+    public boolean isCapital() {
         return isCapital;
     }
 
@@ -216,8 +216,8 @@ public class City implements IXMLizable{
         return latitude;
     }
 
-    public String getLongitute() {
-        return longitute;
+    public String getLongitude() {
+        return longitude;
     }
 
     public float getAltitude() {
