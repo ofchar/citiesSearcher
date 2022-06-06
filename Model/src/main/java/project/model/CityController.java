@@ -2,6 +2,8 @@ package project.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom2.Element;
 
 import project.model.exceptions.ModelException;
@@ -17,7 +19,7 @@ public class CityController {
     private XMLHelper xmlHelper;
 
     public CityController() throws Exception {
-        xmlHelper = new XMLHelper("cities.xml");
+        xmlHelper = new XMLHelper("..\\resources\\cities.xml");
 
         //Lets try to read the document
         try {
@@ -28,7 +30,7 @@ public class CityController {
             try {
                 xmlHelper.createDocument(new CityDocumentTemplater());
             } catch (XMLFileHelperException ex1) {
-                throw new Exception(ex1);
+                throw new Exception(ex);
             }
         }
     }
@@ -128,6 +130,16 @@ public class CityController {
             throw new ModelException("Could not perform update", e);
         }
     }
+    
+    public void delete(String name) throws ModelException {
+        try {
+            xmlHelper.deleteParentOfElement("cities", "city", "name", name);
+            
+            xmlHelper.save();
+        } catch (XMLerException e) {
+            throw new ModelException("Could not perform deletion", e);
+        }
+    }
 
 
 
@@ -197,7 +209,7 @@ public class CityController {
 
     public void transform() {
         try {
-            xmlHelper.transform("resources/transformation/test.xsl", "test.html");
+            xmlHelper.transform("./resources/transformation/test.xsl", "test.html");
         } catch (XMLHelperException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
