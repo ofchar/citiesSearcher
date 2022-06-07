@@ -24,11 +24,21 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.input.sax.XMLReaders;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+
+import net.sf.saxon.trans.XPathException;
+import net.sf.saxon.xqj.SaxonXQDataSource;
 import project.model.xmler.exceptions.XMLFileHelperException;
 import project.model.xmler.exceptions.XMLHelperDocumentNotExistsException;
 import project.model.xmler.exceptions.XMLHelperException;
 import project.model.xmler.exceptions.XMLerException;
 import project.model.xmler.templater.IDocumentTemplater;
+
+import javax.xml.xquery.XQConnection;
+import javax.xml.xquery.XQDataSource;
+import javax.xml.xquery.XQException;
+import javax.xml.xquery.XQPreparedExpression;
+import javax.xml.xquery.XQResultSequence;
+import javax.xml.xquery.XQSequence;
 
 public class XMLHelper {
 
@@ -40,7 +50,7 @@ public class XMLHelper {
     }
 
     /**
-     * Read document from fileName provided in constructor, and store it in doument field.
+     * Read document from fileName provided in constructor, and store it in document field.
      *
      * @throws XMLFileHelperException
      */
@@ -149,6 +159,22 @@ public class XMLHelper {
         Element parentElement = getElement(getRoot(), parent);
 
         parentElement.addContent(element);
+    }
+
+    /**
+     * Sets value of the element of XML document stored in field.
+     * This DOES NOT modify any file, it only changes document field of this class.
+     *
+     * @param parent
+     * @param element
+     * @throws XMLHelperDocumentNotExistsException
+     */
+    public void setRootsValue(String value) throws XMLHelperDocumentNotExistsException {
+        checkDocument();
+
+        Element root = getRoot();
+
+        root.setText(value);
     }
 
     /**
@@ -316,7 +342,7 @@ public class XMLHelper {
     }
 
 
-    public void transform(String xslFile, String resultFileName) throws XMLHelperException {
+    public void xslt(String xslFile, String resultFileName) throws XMLHelperException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = null;
 
@@ -335,5 +361,12 @@ public class XMLHelper {
             throw new XMLHelperException(e);
         }
     }
-}
 
+    public void xQueryToHtml(String outputFile, String queryFile) throws XMLHelperException {
+        try {
+            XMLXqueryHelper.xQueryToHtml(outputFile, queryFile);
+        } catch (XPathException | IOException e) {
+            throw new XMLHelperException(e);
+        }
+    }
+}

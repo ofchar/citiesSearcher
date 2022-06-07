@@ -1,19 +1,23 @@
 package project.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jdom2.Element;
 
+import net.sf.saxon.trans.XPathException;
 import project.model.exceptions.ModelException;
 import project.model.wrapper.CityDataHelper;
 import project.model.xmler.XMLHelper;
+import project.model.xmler.XMLXqueryHelper;
 import project.model.xmler.exceptions.XMLFileHelperException;
 import project.model.xmler.exceptions.XMLHelperDocumentNotExistsException;
 import project.model.xmler.exceptions.XMLHelperException;
 import project.model.xmler.exceptions.XMLerException;
 import project.model.xmler.templater.CityDocumentTemplater;
+import project.model.xmler.templater.XqueryValueTemplater;
 
 public class CityController {
     private XMLHelper xmlHelper;
@@ -183,6 +187,18 @@ public class CityController {
         return getCitiesByXpath("//city[isCapital/text() = 'True']");
     }
 
+    public List<City> getCitiesByTimezone(String timezone) throws ModelException {
+        return getCitiesByXpath("//cities/city[timezone ='" + timezone + "']");
+    }
+
+    public List<City> getCitiesByMinAltitude(int altitude) throws ModelException {
+        return getCitiesByXpath("//cities/city[altitude/text()> " + altitude + "]");
+    }
+
+    public List<City> getCitiesByFirstLanguage(String language) throws ModelException {
+        return getCitiesByXpath("//cities/city[officialLanguages/language[1]='" + language + "']");
+    }
+
 
 
     /**
@@ -207,10 +223,60 @@ public class CityController {
      * Transformations
      */
 
-    public void transform() {
+    public void transform(String outputFile, String queryFile) {
         try {
-            xmlHelper.transform("./resources/transformation/test.xsl", "test.html");
+            xmlHelper.xslt(queryFile, outputFile);
         } catch (XMLHelperException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+
+    public void performXQuery(String outputFile, String queryFile, Integer type, String param) {
+        this.saveXqueryParamToFile(param);
+
+        this.performXQuery(outputFile, queryFile, type);
+    }
+
+    public void performXQuery(String outputFile, String queryFile, Integer type) {
+        try {
+            switch (type) {
+                case 1: {
+                    XMLXqueryHelper.xQueryToHtml(outputFile, queryFile);
+                    break;
+                }
+                case 2: {
+                    XMLXqueryHelper.xQueryToText(outputFile, queryFile);
+                    break;
+                }
+                case 3: {
+                    XMLXqueryHelper.xQueryToXml(outputFile, queryFile);
+                    break;
+                }
+            }
+        } catch (XPathException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    private void saveXqueryParamToFile(String param) {
+        XMLHelper xqueryValueHelper = new XMLHelper("..\\resources\\value.xml");
+        try {
+            xqueryValueHelper.createDocument(new XqueryValueTemplater());
+        } catch (XMLFileHelperException ex) {
+            Logger.getLogger(CityController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            xqueryValueHelper.setRootsValue(param);
+
+            xqueryValueHelper.save();
+        } catch (XMLHelperDocumentNotExistsException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (XMLFileHelperException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
