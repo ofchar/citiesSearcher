@@ -1,23 +1,25 @@
 <!ELEMENT citiesSearcher (cities)>
+
+<!-- Add attributes needed for xsd -->
 <!ATTLIST citiesSearcher xmlns:xsi CDATA #IMPLIED
                         xsi:noNamespaceSchemaLocation CDATA #IMPLIED>
 
 <!ELEMENT cities (city+)>
 <!ELEMENT city (name, country, isCapital, countryFlag, officialLanguages,
     cityFlag, landmarks, area, inhabitants, populationDensity,
-    postalCode, mayor, latitude, longitude, altitude, climate, timezone, website)>
+    postalCode, mayor, latitude, longitude, altitude, climate, timezone, website, twinCities, demonym, phoneNumber)>
 
     <!ELEMENT name (#PCDATA)>
     <!ELEMENT country (#PCDATA)>
     <!ELEMENT isCapital (#PCDATA)>
     <!ELEMENT countryFlag (#PCDATA)>
     <!ELEMENT officialLanguages (language*)>
-        <!ELEMENT language (#PCDATA)>
+    <!ELEMENT language (#PCDATA)>
     <!ELEMENT cityFlag (#PCDATA)>
     <!ELEMENT landmarks (landmark*)>
         <!ELEMENT landmark (#PCDATA)>
     <!ELEMENT area (#PCDATA)>
-        <!ATTLIST area unit CDATA "km2">
+    <!ATTLIST area unit CDATA "km2">
     <!ELEMENT inhabitants (#PCDATA)>
     <!ELEMENT populationDensity (#PCDATA)>
         <!ATTLIST populationDensity unit CDATA "people/km2">
@@ -30,3 +32,7 @@
     <!ELEMENT climate (#PCDATA)>
     <!ELEMENT timezone (#PCDATA)>
     <!ELEMENT website (#PCDATA)>
+    <!ELEMENT twinCities (twinCity*)>
+        <!ELEMENT twinCity (#PCDATA)>
+    <!ELEMENT demonym (#PCDATA)>
+    <!ELEMENT phoneNumber (#PCDATA)>

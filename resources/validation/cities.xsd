@@ -1,74 +1,84 @@
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<xs:element name="citiesSearcher">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="cities">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="city" maxOccurs="unbounded" minOccurs="0">
-								<xs:complexType>
-									<xs:all>
-										<xs:element type="xs:string" name="name" />
-										<xs:element type="xs:string" name="country" />
-										<xs:element type="xs:string" name="isCapital" />
-										<xs:element type="xs:string" name="countryFlag" />
-										<xs:element type="xs:string" name="cityFlag" />
-										<xs:element name="officialLanguages">
-											<xs:complexType mixed="true">
-												<xs:sequence>
-													<xs:element type="xs:string" name="language" maxOccurs="unbounded" minOccurs="0" />
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-										<xs:element name="landmarks">
-											<xs:complexType mixed="true">
-												<xs:sequence>
-													<xs:element type="xs:string" name="landmark" maxOccurs="unbounded" minOccurs="0" />
-												</xs:sequence>
-											</xs:complexType>
-										</xs:element>
-										<xs:element name="area">
-											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:float">
-														<xs:attribute type="xs:string" name="unit" use="optional" />
-													</xs:extension>
-												</xs:simpleContent>
-											</xs:complexType>
-										</xs:element>
-										<xs:element type="xs:int" name="inhabitants" />
-										<xs:element name="populationDensity">
-											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:float">
-														<xs:attribute type="xs:string" name="unit" use="optional" />
-													</xs:extension>
-												</xs:simpleContent>
-											</xs:complexType>
-										</xs:element>
-										<xs:element type="xs:string" name="postalCode" />
-										<xs:element type="xs:string" name="mayor" />
-										<xs:element type="xs:string" name="latitude" />
-										<xs:element type="xs:string" name="longitude" />
-										<xs:element name="altitude">
-											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:float">
-														<xs:attribute type="xs:string" name="unit" use="optional" />
-													</xs:extension>
-												</xs:simpleContent>
-											</xs:complexType>
-										</xs:element>
-										<xs:element type="xs:string" name="climate" />
-										<xs:element type="xs:string" name="timezone" />
-										<xs:element type="xs:anyURI" name="website" />
-									</xs:all>
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+	<xs:element name="citiesSearcher" type="citiesSearcherType"/>
+
+	<xs:complexType name="citiesSearcherType">
+		<xs:sequence>
+			<xs:element name="cities" type="citiesType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="citiesType">
+		<xs:sequence>
+			<xs:element name="city" type="cityType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="cityType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="country" type="xs:string"/>
+			<xs:element name="isCapital" type="xs:boolean"/>
+			<xs:element name="countryFlag" type="xs:anyURI"/>
+			<xs:element name="officialLanguages" type="officialLangaugesType"/>
+			<xs:element name="cityFlag" type="xs:anyURI"/>
+			<xs:element name="landmarks" type="landmarksType"/>
+			<xs:element name="area" type="areaType"/>
+			<xs:element name="inhabitants" type="xs:integer"/>
+			<xs:element name="populationDensity" type="populationDensityType"/>
+			<xs:element name="postalCode" type="xs:string"/>
+			<xs:element name="mayor" type="xs:string"/>
+			<xs:element name="latitude" type="xs:string"/>
+			<xs:element name="longitude" type="xs:string"/>
+			<xs:element name="altitude" type="altitudeType"/>
+			<xs:element name="climate" type="xs:string"/>
+			<xs:element name="timezone" type="xs:string"/>
+			<xs:element name="website" type="xs:anyURI"/>
+			<xs:element name="twinCities" type="twinCitiesType"/>
+			<xs:element name="demonym" type="xs:string"/>
+			<xs:element name="phoneNumber" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="officialLangaugesType">
+		<xs:sequence>
+			<xs:element name="language" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="landmarksType">
+		<xs:sequence>
+			<xs:element name="landmark" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="twinCitiesType">
+		<xs:sequence>
+			<xs:element name="twinCity" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="areaType">
+		<xs:simpleContent>
+			<xs:extension base="xs:decimal">
+				<xs:attribute type="xs:string" name="unit" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="populationDensityType">
+		<xs:simpleContent>
+			<xs:extension base="xs:decimal">
+				<xs:attribute type="xs:string" name="unit" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="altitudeType">
+		<xs:simpleContent>
+			<xs:extension base="xs:decimal">
+				<xs:attribute type="xs:string" name="unit" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
 </xs:schema>
