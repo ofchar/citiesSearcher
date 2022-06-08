@@ -187,4 +187,22 @@ public interface IWrapper {
      * @throws java.lang.WrapperException
      */
     public List<String> getTwinTowns() throws WrapperException;
+
+    /**
+     * Finds and returns city's demonym.
+     * Throws Exception if data could not be found.
+     *
+     * @return String
+     * @throws java.lang.WrapperException
+     */
+    public String getDemonym() throws WrapperException;
+
+    /**
+     * Finds and returns city's phone number.
+     * Throws Exception if data could not be found.
+     *
+     * @return String
+     * @throws java.lang.WrapperException
+     */
+    public String getPhoneNumber() throws WrapperException;
 }

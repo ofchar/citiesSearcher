@@ -138,27 +138,13 @@ public class DBCityWrapper implements IWrapper {
 
     @Override
     public boolean isCapital() throws DbCityWrapperException {
-        Scanner scanner = createScanner();
-
-        Pattern pattern = Pattern.compile("");
-
-        try {
-            findPattern(scanner, pattern);
-        }
-        catch (NoSuchElementException e) {
-            //Here we can assume that if nothing matching pattern was found, the city
-            //simply isn't a capital.
-            return false;
-        }
-
-        scanner.close();
-
-        return true;
+        // Cannot get that information from DBCity.
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
     public String getCountryFlag() throws DbCityWrapperException {
-        String regex = "";
+        String regex = "Flag\"><img src=\"//(.*?)\"";
 
         return getMatch(regex, 1);
     }
@@ -167,7 +153,7 @@ public class DBCityWrapper implements IWrapper {
     public List<String> getCountryLanguages() throws DbCityWrapperException {
         Scanner scanner = createScanner();
 
-        Pattern pattern = Pattern.compile(""); //Iloveregex
+        Pattern pattern = Pattern.compile("(?:Official language</th>(\\S)|(?!^)\\G)(?:(?!<li> :).)*?(?:<li>(.*?) :)");
 
         List<String> list = new ArrayList<String>();
 
@@ -192,120 +178,98 @@ public class DBCityWrapper implements IWrapper {
 
     @Override
     public String getCityFlag() throws DbCityWrapperException {
-        String regex = "";
-
-        return getMatch(regex, 1);
+        //There is no possibility to get that data from DBCity.
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
     public List<String> getCityLandmarks() throws DbCityWrapperException {
-        Scanner scanner = createScanner();
-
-        Pattern pattern = Pattern.compile(""); //Iloveregex
-
-        List<String> list = new ArrayList<String>();
-
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-
-            Matcher matcher = pattern.matcher(line);
-
-            while (matcher.find()) {
-                list.add(matcher.group(2));
-            }
-        }
-
-        scanner.close();
-
-        if(list.isEmpty()) {
-            throw new DbCityWrapperException("Data not found");
-        }
-
-        return list;
+        //There is no possibility to get that data from DBCity.
+        throw new DbCityWrapperException("Data not found");
     }
 
     @Override
     public float getArea() throws DbCityWrapperException {
-        String regex = "";
+        String regex = "Area.*?>([0-9\\,]+[.*0-9\\]*).*?km";
 
-        return Float.parseFloat(getMatch(regex, 1));
+        return Float.parseFloat(getMatch(regex, 1).replace(",", "").split("-")[0]) * 100;
     }
 
     @Override
     public int getInhabitants() throws DbCityWrapperException {
-        String regex = "";
+        String regex = "inhabitants.*?>(\\d+,\\d*[,*\\d*]*).*?<";
 
-        return Integer.parseInt(getMatch(regex, 1));
+        return Integer.parseInt(getMatch(regex, 1).replace(",", "").split("-")[0]);
     }
 
     @Override
     public float getPopulationDensity() throws DbCityWrapperException {
-        String regex = "";
+        String regex = "Density.*?>([0-9,]+[.*0-9]*).*?km";
 
-        return Float.parseFloat(getMatch(regex, 1));
+        return Float.parseFloat(getMatch(regex, 1).replace(",", "").split("-")[0]);
     }
 
     @Override
     public String getPostalCode() throws DbCityWrapperException {
-        String regex = "";
+        String regex = "Postal address<.*?><span class=\"locality\">([\\w].*?)<";
 
         return getMatch(regex, 1);
     }
 
     @Override
     public String getMayorName() throws DbCityWrapperException {
-        String regex = "";
+        String regex = "Mayor<.*?>([\\w].*?)<";
 
         return getMatch(regex, 1);
     }
 
     @Override
     public String getLatitude() throws DbCityWrapperException {
-        String regex = "class=\\\"latitude\\\">(.*?)<";
+        String regex = "class=\"latitude\">(.*?)<";
 
         return getMatch(regex, 1);
     }
 
     @Override
     public String getLongitude() throws DbCityWrapperException {
-        String regex = "class=\\\"longitude\\\">(.*?)<";
+        String regex = "class=\"longitude\">(.*?)<";
 
         return getMatch(regex, 1);
     }
 
     @Override
     public float getAltitude() throws DbCityWrapperException {
-        String regex = "Altitude<.*?>([\\/w].*?)<";
+        String regex = "Altitude<.*?<em class=\"grey\">([\\w].*?)<";
 
-        return Float.parseFloat(getMatch(regex, 1));
+        return Float.parseFloat(getMatch(regex, 1).replace(",", "").split("-")[0]);
     }
 
     @Override
     public String getClimate() throws DbCityWrapperException {
-        String regex = "Climate<.*?>([\\/w].*?)<";
+        String regex = "Climate<.*?>([\\w].*?)<";
 
         return getMatch(regex, 1);
     }
 
     @Override
     public String getTimezone() throws DbCityWrapperException {
-        String regex = "Time zone.*?>(UTC)<\\/abbr>(.*?)<";
+        String regex = "Time zone.*?>(UTC)</abbr>(.*?)<";
 
         return getMatch(regex, 1);
     }
 
     @Override
     public String getWebsite() throws DbCityWrapperException {
-        String regex = "Website.*?href=\\\"(.*?)\\\"";
+        String regex = "Website<.*?href=\"(.*?)\"";
 
         return getMatch(regex, 1);
     }
-
+    
     @Override
     public List<String> getTwinTowns() throws DbCityWrapperException {
         Scanner scanner = createScanner();
 
-        Pattern pattern = Pattern.compile(""); //Iloveregex
+        Pattern pattern = Pattern.compile("(?:Twin towns, Sister cities</h2>(\\S+)|(?!^)\\G)(?:(?!\" title.*?>(.*?)</a>).)+(\" title.*?>(.*?)</a>)");
 
         List<String> list = new ArrayList<String>();
 
@@ -315,7 +279,13 @@ public class DBCityWrapper implements IWrapper {
             Matcher matcher = pattern.matcher(line);
 
             while (matcher.find()) {
-                list.add(matcher.group(2));
+                String match = matcher.group(4);
+
+                if(match.length() > 30) {
+                    break;
+                }
+
+                list.add(match);
             }
         }
 
@@ -327,5 +297,17 @@ public class DBCityWrapper implements IWrapper {
 
         return list;
     }
-    
+
+    @Override
+    public String getDemonym() throws DbCityWrapperException {
+        //There is no possibility to get that data from DBCity.
+        throw new DbCityWrapperException("Data not found");
+    }
+
+    @Override
+    public String getPhoneNumber() throws DbCityWrapperException {
+        String regex = "Phone<.*?><em class=\"internat\">([\\w].*?)<";
+
+        return getMatch(regex, 1);
+    }
 }

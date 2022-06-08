@@ -174,14 +174,14 @@ public class WikipediaWrapper implements IWrapper {
 
     @Override
     public float getArea() throws WikipediaWrapperException {
-        String regex = "Area.*?>([0-9\\\\.]+).*?km";
+        String regex = "Area.*?>([0-9\\,\\.]+).*?km";
 
         return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
     }
 
     @Override
     public int getInhabitants() throws WikipediaWrapperException {
-        String regex = "Population.*?>(\\d+,\\d*[,*\\d*]*).+?<";
+        String regex = "Population<.*?<td class=\"infobox-data\">(\\d+,\\d*[,*\\d*]*).?<";
 
         return Integer.parseInt(getMatch(regex, 1).replace(",", ""));
     }
@@ -223,9 +223,9 @@ public class WikipediaWrapper implements IWrapper {
 
     @Override
     public float getAltitude() throws WikipediaWrapperException {
-        String regex = "[eE]levation.*?>(\\d+[\\d-]*)[^\\d].*?m";
+        String regex = "[eE]levation<.*?<td class=\"infobox-data\">.*?(\\d*?[–\\d]*?)\\&#160;m";
 
-        return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
+        return Float.parseFloat(getMatch(regex, 1).replace(",", "").split("–")[0]);
     }
 
     @Override
@@ -245,7 +245,7 @@ public class WikipediaWrapper implements IWrapper {
 
     @Override
     public String getWebsite() throws WikipediaWrapperException {
-        String regex = "Website.*?href=\\\"(.*?)\\\"";
+        String regex = "Website.*?\" href=\"(.*?)\">";
 
         return getMatch(regex, 1);
     }
@@ -258,4 +258,17 @@ public class WikipediaWrapper implements IWrapper {
         throw new WikipediaWrapperException("Data not found");
     }
 
+    @Override
+    public String getPhoneNumber() throws WikipediaWrapperException {
+        //Since there is not way to reliably get that data from Wikipedia city
+        //page, we will simply throw this error every time.
+        throw new WikipediaWrapperException("Data not found");
+    }
+
+    @Override
+    public String getDemonym() throws WikipediaWrapperException {
+        String regex = "Demonym\\(s\\)<.*?>([\\w].*?)<";
+
+        return getMatch(regex, 0);
+    }
 }

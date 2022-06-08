@@ -29,6 +29,8 @@ public class City implements IXMLizable{
     private String timezone;
     private String website;
     private List<String> twinCities;
+    private String demonym;
+    private String phoneNumber;
 
     public City(Element element) {
         fillData(element);
@@ -67,6 +69,8 @@ public class City implements IXMLizable{
             this.timezone = dataWrapper.getTimezone();
             this.website = dataWrapper.getWebsite();
             this.twinCities = dataWrapper.getTwinTowns();
+            this.demonym = dataWrapper.getDemonym();
+            this.phoneNumber = dataWrapper.getPhoneNumber();
         }
         catch (WrapperException ex) {
             throw new ModelException("Could not create a city, missing data", ex);
@@ -81,7 +85,7 @@ public class City implements IXMLizable{
     public void fillData(Element xmlCityElement) {
         this.name = xmlCityElement.getChildText("name");
         this.country = xmlCityElement.getChildText("country");
-        this.isCapital = xmlCityElement.getChildText("isCapital").equals("True");
+        this.isCapital = xmlCityElement.getChildText("isCapital").equals("true");
         this.countryFlag = xmlCityElement.getChildText("countryFlag");
         this.area = Float.parseFloat(xmlCityElement.getChildText("area"));
         this.inhabitants = Integer.parseInt(xmlCityElement.getChildText("inhabitants"));
@@ -94,20 +98,22 @@ public class City implements IXMLizable{
         this.climate = xmlCityElement.getChildText("climate");
         this.timezone = xmlCityElement.getChildText("timezone");
         this.website = xmlCityElement.getChildText("website");
+        this.demonym = xmlCityElement.getChildText("demonym");
+        this.phoneNumber = xmlCityElement.getChildText("phoneNumber");
 
 
 
         this.languages = new ArrayList<String>();
-//        Element languagesElement = xmlCityElement.getChild("languages");
-//        languagesElement.getChildren().forEach((language) -> this.languages.add(language.getText()));
+        Element languagesElement = xmlCityElement.getChild("officialLanguages");
+        languagesElement.getChildren().forEach((language) -> this.languages.add(language.getText()));
 
         this.landmarks = new ArrayList<String>();
         Element landmarksElement = xmlCityElement.getChild("landmarks");
         landmarksElement.getChildren().forEach((landmark) -> this.landmarks.add(landmark.getText()));
 
         this.twinCities = new ArrayList<String>();
-//        Element twinCitiesElement = xmlCityElement.getChild("twinCities");
-//        twinCitiesElement.getChildren().forEach((city) -> this.twinCities.add(city.getText()));
+        Element twinCitiesElement = xmlCityElement.getChild("twinCities");
+        twinCitiesElement.getChildren().forEach((city) -> this.twinCities.add(city.getText()));
     }
 
     /**
@@ -131,13 +137,13 @@ public class City implements IXMLizable{
 
         Element twinCities = new Element("twinCities");
         for(String twinCity : this.twinCities) {
-            twinCities.addContent(new Element("city").setText(twinCity));
+            twinCities.addContent(new Element("twinCity").setText(twinCity));
         }
 
 
         city.addContent(new Element("name").setText(this.name));
         city.addContent(new Element("country").setText(this.country));
-        city.addContent(new Element("isCapital").setText(this.isCapital ? "True" : "False"));
+        city.addContent(new Element("isCapital").setText(this.isCapital ? "true" : "false"));
         city.addContent(new Element("countryFlag").setText(this.countryFlag));
         city.addContent(officialLanguages);
         city.addContent(new Element("cityFlag").setText(this.cityFlag));
@@ -154,6 +160,8 @@ public class City implements IXMLizable{
         city.addContent(new Element("timezone").setText(this.timezone));
         city.addContent(new Element("website").setText(this.website));
         city.addContent(twinCities);
+        city.addContent(new Element("demonym").setText(this.demonym));
+        city.addContent(new Element("phoneNumber").setText(this.phoneNumber));
 
         return city;
     }
@@ -238,5 +246,13 @@ public class City implements IXMLizable{
 
     public List<String> getTwinCities() {
         return twinCities;
+    }
+
+    public String getDemonym() {
+        return demonym;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 }

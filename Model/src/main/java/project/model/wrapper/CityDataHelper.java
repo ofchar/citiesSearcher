@@ -445,4 +445,34 @@ public class CityDataHelper implements IWrapper {
             return new ArrayList<String>();
         }
     }
+
+    public String getDemonym() throws CityDataCouldNotBeFoundException {
+        try {
+            return this.wikipediaWrapper.getDemonym();
+        } catch (WikipediaWrapperException ex) {
+            // Nothing for now.
+        }
+
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return null;
+        }
+    }
+
+    public String getPhoneNumber() throws CityDataCouldNotBeFoundException {
+        try {
+            return this.dbcityWrapper.getPhoneNumber();
+        } catch (DbCityWrapperException ex) {
+            // Nothing for now.
+        }
+
+        if(strict) {
+            throw new CityDataCouldNotBeFoundException();
+        }
+        else {
+            return null;
+        }
+    }
 }
