@@ -90,6 +90,7 @@ public class View extends javax.swing.JFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -326,6 +327,14 @@ public class View extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem15);
 
+        jMenuItem19.setText("twin cities of city");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem19);
+
         jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
@@ -419,7 +428,6 @@ public class View extends javax.swing.JFrame {
                         {"country", city.getCountry()},
                         {"isCapital", city.isCapital()},
                         {"countryFlag", city.getCountryFlag()},
-                        //                    {"mainLanguage", city.getLanguages().get(0)},
                         {"area", city.getArea()},
                         {"inhabitants", city.getInhabitants()},
                         {"density", city.getPopulationDensity()},
@@ -430,7 +438,9 @@ public class View extends javax.swing.JFrame {
                         {"altitude", city.getAltitude()},
                         {"climate", city.getClimate()},
                         {"timezone", city.getTimezone()},
-                        {"website", city.getWebsite()},},
+                        {"website", city.getWebsite()},
+                        {"demonym", city.getDemonym()},
+                        {"phoneNumber", city.getPhoneNumber()},},
                     new String[]{
                         "name", "value"
                     }
@@ -702,6 +712,24 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        JTextField firstField = new JTextField(5);
+        JTextField secondField = new JTextField(5);
+
+        JPanel myPanel = new JPanel();
+        myPanel.add(new JLabel("Filename:"));
+        myPanel.add(firstField);
+        myPanel.add(Box.createHorizontalStrut(15)); 
+        myPanel.add(new JLabel("city:"));
+        myPanel.add(secondField);
+
+        int result = JOptionPane.showConfirmDialog(null, myPanel,
+                "waaaat", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            cityController.performXQuery(firstField.getText() + ".html", "..//resources//transformation//twincitiesOfCity.xql", 1, secondField.getText());
+        }
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -761,6 +789,7 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
