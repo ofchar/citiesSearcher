@@ -269,7 +269,7 @@ public class View extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu5.setText("jMenu5");
+        jMenu5.setText("transformations");
 
         jMenuItem10.setText("flags");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
@@ -388,7 +388,10 @@ public class View extends javax.swing.JFrame {
                         JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -399,7 +402,7 @@ public class View extends javax.swing.JFrame {
             }
 
             public String getElementAt(int i) {
-                return cities.get(i).getName() + "  " + cities.get(i).getCountry();
+                return cities.get(i).getName() + " -- " + cities.get(i).getCountry();
             }
         });
     }
@@ -408,7 +411,10 @@ public class View extends javax.swing.JFrame {
         try {
             this.loadXML(cityController.index());
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -418,7 +424,7 @@ public class View extends javax.swing.JFrame {
         }
 
         try {
-            City city = cityController.get(jList1.getSelectedValue().split(" ")[0]);
+            City city = cityController.get(jList1.getSelectedValue().split(" -- ")[0]);
 
             this.currentCity = city;
 
@@ -446,7 +452,11 @@ public class View extends javax.swing.JFrame {
                     }
             ));
         } catch (ModelException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jList1ValueChanged
 
@@ -459,14 +469,18 @@ public class View extends javax.swing.JFrame {
                 cityController.update(currentCity.getName(), propertyName, newValue);
                 
                 checkValidation();
-
-                try {
-                    this.loadXML(cityController.index());
-                } catch (Exception ex) {
-                    Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                
+                this.loadXML(cityController.index());
             } catch (ModelException ex) {
-                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jTable2PropertyChange
@@ -485,7 +499,10 @@ public class View extends javax.swing.JFrame {
                         JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -505,13 +522,17 @@ public class View extends javax.swing.JFrame {
             
             checkValidation();
 
-            try {
-                this.loadXML(cityController.index());
-            } catch (Exception ex) {
-                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            this.loadXML(cityController.index());
         } catch (ModelException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -537,9 +558,17 @@ public class View extends javax.swing.JFrame {
                 checkValidation();
 
             } catch (ModelException ex) {
-                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
-                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -550,7 +579,10 @@ public class View extends javax.swing.JFrame {
         try {
             this.loadXML(cityController.getCitiesByName(m));
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -560,7 +592,10 @@ public class View extends javax.swing.JFrame {
         try {
             this.loadXML(cityController.getCitiesOfCountry(m));
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
@@ -570,7 +605,10 @@ public class View extends javax.swing.JFrame {
         try {
             this.loadXML(cityController.getCitiesByMinPopulation(Integer.parseInt(m)));
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
@@ -580,7 +618,10 @@ public class View extends javax.swing.JFrame {
         try {
             this.loadXML(cityController.getCitiesByClimate(m));
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
@@ -588,7 +629,10 @@ public class View extends javax.swing.JFrame {
         try {
             this.loadXML(cityController.getCapitals());
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
@@ -688,7 +732,10 @@ public class View extends javax.swing.JFrame {
         try {
             this.loadXML(cityController.getCitiesByTimezone(m));
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
@@ -698,7 +745,10 @@ public class View extends javax.swing.JFrame {
         try {
             this.loadXML(cityController.getCitiesByMinAltitude(Integer.parseInt(m)));
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
@@ -708,7 +758,10 @@ public class View extends javax.swing.JFrame {
         try {
             this.loadXML(cityController.getCitiesByFirstLanguage(m));
         } catch (Exception ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this,
+                        "oh no :((( an error occured :(((",
+                        "error :(((",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 

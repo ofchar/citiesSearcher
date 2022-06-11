@@ -24,7 +24,6 @@
 			</tr>
 		}
 		</table>
-
 	</body>
 </html>
 

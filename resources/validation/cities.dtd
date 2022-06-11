@@ -2,7 +2,7 @@
 
 <!-- Add attributes needed for xsd -->
 <!ATTLIST citiesSearcher xmlns:xsi CDATA #IMPLIED
-                        xsi:noNamespaceSchemaLocation CDATA #IMPLIED>
+    xsi:noNamespaceSchemaLocation CDATA #IMPLIED>
 
 <!ELEMENT cities (city+)>
 <!ELEMENT city (name, country, isCapital, countryFlag, officialLanguages,

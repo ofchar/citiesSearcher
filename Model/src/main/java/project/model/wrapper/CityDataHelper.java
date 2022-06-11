@@ -251,14 +251,14 @@ public class CityDataHelper implements IWrapper {
     @Override
     public String getPostalCode() throws CityDataCouldNotBeFoundException {
         try {
-            return this.wikipediaWrapper.getPostalCode();
-        } catch (WikipediaWrapperException ex) {
+            return this.dbcityWrapper.getPostalCode();
+        } catch (DbCityWrapperException ex) {
             // Nothing for now.
         }
 
         try {
-            return this.dbcityWrapper.getPostalCode();
-        } catch (DbCityWrapperException ex) {
+            return this.wikipediaWrapper.getPostalCode();
+        } catch (WikipediaWrapperException ex) {
             // Nothing for now.
         }
 

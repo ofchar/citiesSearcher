@@ -174,7 +174,7 @@ public class WikipediaWrapper implements IWrapper {
 
     @Override
     public float getArea() throws WikipediaWrapperException {
-        String regex = "Area.*?>([0-9\\,\\.]+).*?km";
+        String regex = "Area.*?>([0-9][0-9,.]+).*?km";
 
         return Float.parseFloat(getMatch(regex, 1).replace(",", ""));
     }
@@ -195,7 +195,7 @@ public class WikipediaWrapper implements IWrapper {
 
     @Override
     public String getPostalCode() throws WikipediaWrapperException {
-        String regex = "class=\"postal-code\">(.*?)<\\/";
+        String regex = "class=\"postal-code\".*>(.*?)</div>";
 
         return getMatch(regex, 1);
     }
@@ -269,6 +269,6 @@ public class WikipediaWrapper implements IWrapper {
     public String getDemonym() throws WikipediaWrapperException {
         String regex = "Demonym\\(s\\)<.*?>([\\w].*?)<";
 
-        return getMatch(regex, 0);
+        return getMatch(regex, 1);
     }
 }

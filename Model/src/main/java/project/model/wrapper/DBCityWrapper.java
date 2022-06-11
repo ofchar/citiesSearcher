@@ -30,7 +30,7 @@ public class DBCityWrapper implements IWrapper {
 
         String countryFileName = "dbcity_" + this.countryName;
 
-        HttpRequestHelper.httpRequest1(link, this.countryName, countryFileName);
+        HttpRequestHelper.httpRequest2(link, this.countryName, countryFileName);
 
         return countryFileName;
     }
@@ -40,7 +40,7 @@ public class DBCityWrapper implements IWrapper {
 
         try {
             return findPattern(
-                new Scanner(new FileInputStream(countryFileName)),
+                new Scanner(new FileInputStream(countryFileName), "UTF-8"),
                 Pattern.compile(regex, Pattern.CASE_INSENSITIVE)
             ).group(1);
         } catch (FileNotFoundException e) {
@@ -53,7 +53,7 @@ public class DBCityWrapper implements IWrapper {
 
         this.cityFileName = "dbcity_" + this.cityName;
 
-        HttpRequestHelper.httpRequest1(link, "", this.cityFileName);
+        HttpRequestHelper.httpRequest2(link, "", this.cityFileName);
     }
 
     /**
@@ -190,7 +190,7 @@ public class DBCityWrapper implements IWrapper {
 
     @Override
     public float getArea() throws DbCityWrapperException {
-        String regex = "Area.*?>([0-9\\,]+[.*0-9\\]*).*?km";
+        String regex = "Area.*?>([0-9,]+[.*0-9]*).*?km";
 
         return Float.parseFloat(getMatch(regex, 1).replace(",", "").split("-")[0]) * 100;
     }
@@ -239,7 +239,7 @@ public class DBCityWrapper implements IWrapper {
 
     @Override
     public float getAltitude() throws DbCityWrapperException {
-        String regex = "Altitude<.*?<em class=\"grey\">([\\w].*?)<";
+        String regex = "Altitude<.*?([\\d]+).*?<";
 
         return Float.parseFloat(getMatch(regex, 1).replace(",", "").split("-")[0]);
     }

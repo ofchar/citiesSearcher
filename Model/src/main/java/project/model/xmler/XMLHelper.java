@@ -1,7 +1,6 @@
 package project.model.xmler;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +11,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -26,19 +24,11 @@ import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 
 import net.sf.saxon.trans.XPathException;
-import net.sf.saxon.xqj.SaxonXQDataSource;
 import project.model.xmler.exceptions.XMLFileHelperException;
 import project.model.xmler.exceptions.XMLHelperDocumentNotExistsException;
 import project.model.xmler.exceptions.XMLHelperException;
 import project.model.xmler.exceptions.XMLerException;
 import project.model.xmler.templater.IDocumentTemplater;
-
-import javax.xml.xquery.XQConnection;
-import javax.xml.xquery.XQDataSource;
-import javax.xml.xquery.XQException;
-import javax.xml.xquery.XQPreparedExpression;
-import javax.xml.xquery.XQResultSequence;
-import javax.xml.xquery.XQSequence;
 
 public class XMLHelper {
 

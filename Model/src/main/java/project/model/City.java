@@ -56,6 +56,7 @@ public class City implements IXMLizable{
             this.isCapital = dataWrapper.isCapital();
             this.countryFlag = dataWrapper.getCountryFlag();
             this.languages = dataWrapper.getCountryLanguages();
+            this.cityFlag = dataWrapper.getCityFlag();
             this.landmarks = dataWrapper.getCityLandmarks();
             this.area = dataWrapper.getArea();
             this.inhabitants = dataWrapper.getInhabitants();
@@ -87,6 +88,7 @@ public class City implements IXMLizable{
         this.country = xmlCityElement.getChildText("country");
         this.isCapital = xmlCityElement.getChildText("isCapital").equals("true");
         this.countryFlag = xmlCityElement.getChildText("countryFlag");
+        this.cityFlag = xmlCityElement.getChildText("cityFlag");
         this.area = Float.parseFloat(xmlCityElement.getChildText("area"));
         this.inhabitants = Integer.parseInt(xmlCityElement.getChildText("inhabitants"));
         this.populationDensity = Float.parseFloat(xmlCityElement.getChildText("populationDensity"));
